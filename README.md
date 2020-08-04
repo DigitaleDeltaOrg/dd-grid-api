@@ -24,7 +24,7 @@ Status
 
 _**Juli 2020**_:
 
-- OGC API Coverage reponse voorbeelden uitgewerkt (zie ./voorbeelden/).
+- OGC API Coverage reponse voorbeelden uitgewerkt (zie [voorbeelden](./voorbeelden/voorbeelden.md)).
 - Voorbeelden gaan nog uitgewerkt worden in json dictionary representatie.
 - Als volgende actie worden de end points uitgewerkt.
 - Eerstvolgende inhoudelijke bijeenkomst: september.

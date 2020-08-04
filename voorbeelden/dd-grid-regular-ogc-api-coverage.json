@@ -1,0 +1,134 @@
+{
+	"id": "EemsDollard_20200226000000",
+	"type": "CoverageByDomainAndRangeType",
+	"envelope": {
+		"type": "EnvelopeByAxisType",
+		"srsName": "https://espg.org/4326",
+		"axisLabels": [
+			"lon",
+			"lat",
+			"realization",
+			"t"
+		],
+		"axis": [
+			{
+				"type": "AxisExtentType",
+				"axisLabel": "lon",
+				"lowerBound": 6.73,
+				"upperBound": 7.11,
+				"uomLabel": "deg"
+			},
+			{
+				"type": "AxisExtentType",
+				"axisLabel": "lat",
+				"lowerBound": 53.54,
+				"upperBound": 53.6,
+				"uomLabel": "deg"
+			},
+			{
+				"type": "AxisExtentType",
+				"axisLabel": "realization",
+				"lowerBound": 0,
+				"upperBound": 20,
+				"uomLabel": ""
+			},
+			{
+				"type": "AxisExtentType",
+				"axisLabel": "t",
+				"lowerBound": "2020-02-26T00:00:00Z",
+				"upperBound": "2020-03-04T00:00:00Z",
+				"uomLabel": ""
+			}
+		]
+	},
+	"domainSet": {
+		"type": "DomainSetType",
+		"generalGrid": {
+			"type": "GeneralGridCoverageType",
+			"srsName": "https://epsg.org/28992",
+			"axisLabels": [
+				"x",
+				"y",
+				"realization",
+				"t"
+			],
+			"axis": [
+				{
+					"type": "RegularAxisType",
+					"axisLabel": "x",
+					"lowerBound": 617934,
+					"upperBound": 625134,
+					"uomLabel": "m",
+					"resolution": 100
+				},
+				{
+					"type": "RegularAxisType",
+					"axisLabel": "y",
+					"lowerBound": 244024,
+					"upperBound": 269024,
+					"uomLabel": "m",
+					"resolution": 250
+				},
+				{
+					"type": "IndexAxisType",
+					"axisLabel": "realization",
+					"lowerBound": 0,
+					"upperBound": 50
+				},
+				{
+					"type": "RegularAxisType",
+					"axisLabel": "t",
+					"lowerBound": "2020-02-26T00:00:00Z",
+					"upperBound": "2020-03-04T00:00:00Z",
+					"uomLabel": "s",
+					"resolution": 1
+				}
+			]
+		}
+	},
+	"rangeSet": {
+		"type": "RangeSetRefType",
+		"fileReference": [
+			"https://<path>/EemsDollard/20200226000000.nc"
+		]
+	},
+	"rangeType": {
+		"type": "DataRecordType",
+		"field": [
+			{
+				"type": "QuantityType",
+				"paramaterCode": "WATHTE",
+				"name": "Waterlevel",
+				"definition": "https://<path>/rangetypes/WATHTE",
+				"uom": {
+					"type": "UnitReference",
+					"referenceLevel": "NAP",
+					"code": "m"
+				}
+			},
+			{
+				"type": "QuantityType",
+				"paramaterCode": "T",
+				"name": "temperatuur",
+				"definition": "https://<path>/rangetypes/T",
+				"uom": {
+					"type": "UnitReference",
+					"code": "Celsius"
+				}
+			},
+			{
+				"type": "QuantityType",
+				"paramaterCode": "SALNTT",
+				"name": "Salinity",
+				"definition": "https://<path>/rangetypes/SALNTT",
+				"uom": {
+					"type": "UnitReference",
+					"code": "-"
+				}
+			}
+		]
+	},
+	"metadata": {
+		"description": "Eems-Dollard model produced by RWS"
+	}
+}

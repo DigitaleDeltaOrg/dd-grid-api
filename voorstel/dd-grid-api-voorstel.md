@@ -4,7 +4,7 @@
 **Inleiding**
 -------------
 
-Dit memo bevat versie twee van de beschrijving van de conceptversie van de DD-GRID-API, de Digitale Delta API voor roosterdata (oftewel grid data).
+Dit memo bevat de beschrijving van de conceptversie van de DD-GRID-API, de Digitale Delta API voor roosterdata (oftewel grid data).
 
 Deze conceptversie is het resultaat van:
 
@@ -31,7 +31,7 @@ Zodra deze conceptversies redelijk definitief zijn zal e.e.a. worden omgezet in 
 Tijdens de bespreking van de diverse conceptversies zijn de volgende algemene afspraken gemaakt:
 
 - Bij de DD-API gebruiken we paging. Bij de DD-GRID api stellen we dat niet verplicht.
- Het mag echter wel worden ge�mplementeerd.
+ Het mag echter wel worden ge&#239;mplementeerd.
 - I.v.m. de consistentie voegen we, net als bij de DD-API, aan de metadata response de 'node' informatie toe (en we voegen nodeId toe als query parameter)
 - De boundingBox query parameter kan bij vrijwel alle end points worden meegeven, t.b.v. ruimtelijke selectie
  In de response zitten de grids die geheel _of gedeeltelijk_ binnen de boundingBox vallen.

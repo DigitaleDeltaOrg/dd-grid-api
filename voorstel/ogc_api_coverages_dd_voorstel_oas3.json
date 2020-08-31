@@ -506,11 +506,7 @@
 				],
 				"summary": "returns the whole coverage description consisting of domainset, rangetype, and metadata (but not the rangeset)",
 				"operationId": "getCoverageDescription",
-				"parameters": [
-					{
-						"$ref": "#/components/parameters/subset"
-					}
-				],
+				"parameters": [ ],
 				"responses": {
 					"200": {
 						"description": "A coverage description.",

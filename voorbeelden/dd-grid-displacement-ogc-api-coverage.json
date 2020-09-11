@@ -60,7 +60,7 @@
 	},
 	"rangeType": [
 		{
-			"id": "WATHTE",
+			"id": "(internal_id_a)",
 			"name": "Waterlevel",
 			"uom": {
 				"referenceLevel": "NAP",
@@ -68,12 +68,13 @@
 			},
 			"definitions": [{
 				"standard": "aquo",
-				"code": "LEVEL",
-				"reference": "https://aquostandard/observationtypes/LEVEL"
+				"code": "WATHTE",
+				"name": "peil",
+				"reference": "https://acceptatie.aquo.nl/index.php/Id-1b1dd050-6a61-45ef-b248-e4de6877b598"
 			}]
 		},
 		{
-			"id": "T",
+			"id": "(internal_id_b)",
 			"name": "temperatuur",
 			"uom": {
 				"code": "Celsius"
@@ -81,16 +82,22 @@
 			"definitions": [{
 				"standard": "aquo",
 				"code": "T",
-				"reference": "https://aquostandard/observationtypes/T"
+				"name": "temperatuur",
+				"reference": "https://acceptatie.aquo.nl/index.php/Id-368757fa-38b2-4b6a-910f-72e849810ba9"
 			}]
 		},
 		{
-			"id": "SALNTT",
+			"id": "(internal_id_c)",
 			"name": "Salinity",
 			"uom": {
 				"code": "-"
 			},
-			"definitions": []
+			"definitions": [{
+				"standard": "aquo",
+				"code": "SALNTT",
+				"name": "saliniteit",
+				"reference": "https://acceptatie.aquo.nl/index.php/Id-f0cb40fc-8834-4c5b-ab14-edaaa10c9f53"
+			}]
 		}
 	],
 	"metadata": {

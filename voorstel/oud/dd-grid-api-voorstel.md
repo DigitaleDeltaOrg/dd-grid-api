@@ -1,17 +1,23 @@
-**Voorstel DD-GRID-API, versie 2**
-==================================
+**Oorspronkelijke voorstel DD-GRID-API**
+========================================
 
 **Inleiding**
 -------------
 
-Dit memo bevat de beschrijving van de conceptversie van de DD-GRID-API, de Digitale Delta API voor roosterdata (oftewel grid data).
+Dit document bevat de beschrijving van een eerste, niet meer actuele, conceptversie van de DD-GRID-API, de Digitale Delta API voor roosterdata (oftewel grid data).
 
-Deze conceptversie is het resultaat van:
+Deze conceptversie was het resultaat van:
 
 - een achttal vergaderingen in 2018 met de roosterdata-groep, een subgroep van de DD-werkgroep. Het eerste deel van de sessies richtte zich op het in kaart brengen van de gewenste functionaliteit, het tweede deel op het uitwerken van het DD-GRID-voorstel.
 - Een vervolgsessie in 2020 (27 mei)
 
-De opbouw van het memo is als volgt:
+Vervolgens werd geconcludeerd dat erg veel gelijkenis was met de ontwikkeling van de [OGC API Coverages](https://github.com/opengeospatial/ogc_api_coverages) (zelfde structuur, afwijkende terminologie). Daarom is besloten bij de verdere uitwerking uit te gaan van de OGC API Coverages. Zie de daaruit voortgekomen [DD-GRID-API](../dd-grid-api-documenation-nl.md) voor het resultaat.
+
+**Leeswijzer**
+-------------
+
+
+De opbouw van dit document is als volgt:
 
 - Het eerste hoofdstuk beschrijft de tijdens het uitwerken gemaakte afspraken;
 - Het tweede hoofdstuk geeft enkele onderwerpen aan waarover nog een keuze over gemaakt moet worden;

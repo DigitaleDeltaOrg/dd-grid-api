@@ -560,19 +560,19 @@
 						"type": "string"
 					},
 					"envelope": {
-						"$ref": "./dd-grid-api-coverage-schema.json/definitions/envelope"
+						"$ref": "https://github.com/DigitaleDeltaOrg/dd-grid-api/blob/master/voorstel/dd-grid-api-coverage-schema.json/envelope"
 					},
 					"domainSet": {
-						"$ref": "./dd-grid-api-coverage-schema.json/definitions/domainSet"
+						"$ref": "https://github.com/DigitaleDeltaOrg/dd-grid-api/blob/master/voorstel/dd-grid-api-coverage-schema.json/domainSet"
 					},
 					"rangeSet": {
-						"$ref": "./dd-grid-api-coverage-schema.json/definitions/rangeSet"
+						"$ref": "https://github.com/DigitaleDeltaOrg/dd-grid-api/blob/master/voorstel/dd-grid-api-coverage-schema.json/rangeSet"
 					},
 					"rangeType": {
-						"$ref": "./dd-grid-api-coverage-schema.json/definitions/rangeType"
+						"$ref": "https://github.com/DigitaleDeltaOrg/dd-grid-api/blob/master/voorstel/dd-grid-api-coverage-schema.json/rangeType"
 					},
 					"metadata": {
-						"$ref": "./dd-grid-api-coverage-schema.json/definitions/metadata"
+						"$ref": "https://github.com/DigitaleDeltaOrg/dd-grid-api/blob/master/voorstel/dd-grid-api-coverage-schema.json/metadata"
 					}
 				},
 				"additionalProperties": false,
@@ -605,7 +605,7 @@
 					"result": {
 						"type": "array",
 						"items": {
-							"$ref": "./dd-grid-api-coverage-schema.json/definitions/rangeType"
+							"$ref": "https://github.com/DigitaleDeltaOrg/dd-grid-api/blob/master/voorstel/dd-grid-api-coverage-schema.json/rangeType"
 						},
 						"description": "Query results."
 					}

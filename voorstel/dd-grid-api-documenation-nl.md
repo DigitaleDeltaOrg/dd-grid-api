@@ -1,4 +1,4 @@
-# Voorstel DD-GRID-API
+# Beschrijvin DD-GRID-API (versie 0.9)
 
 ## Inleiding
 

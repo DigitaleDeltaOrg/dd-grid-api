@@ -1,6 +1,6 @@
 # Uitgewerkte voorbeelden
 
-Voorbeelden van de coverage response volgens de DD-GRID-API van de OGC API Coverages:
+Voorbeelden van de coverage response volgens de DD-GRID-API (afgeleid van de OGC API Coverages):
 - dd-grid-regular-ogc-api-coverage.json:<br>
 raster, drie grootheden
 - dd-grid-displacement-ogc-api-coverage.json:<br>

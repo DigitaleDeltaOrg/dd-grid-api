@@ -42,6 +42,7 @@ Deze aangebrachte wijzingingen zullen hier binnenkort in meer detail worden besc
 | | _time_ | Periode van interesse |
 | | _quantityId_ | Geef alleen coverages die data voor de _quantity_ met id _quantityId_ bevatten |
 | | _quantityName_ | Geef alleen coverages die data voor de _quantity_ met name  _quantityName_ bevatten |
+| | _analysisTime_ | Productietijdstip van de data set |
 | **/coverages/{coverageId}** | | Alle informatie over een coverage, behalve de data |
 | **/coverages/{coverageId}/data** | | Vraag data op van de coverage|
 | | _boundingBox_ | Rechthoekig deelgebied uit de domainset |
@@ -51,6 +52,5 @@ Deze aangebrachte wijzingingen zullen hier binnenkort in meer detail worden besc
 | | _quantityName[]_ | Geef alleen data voor een of meer quantities, gespecificeerd d.m.v. name(s) |
 | | _startTime_ | Data vanaf (inclusief) |
 | | _endTime_ | Data tot en met (inclusief) |
-| | _analysisTime_ | Productietijd van de data set |
 | | _realization_ | Realization index, in geval van resultaten van een ensemble run |
 | | _point[]_ | X,Y-punt(en) Response is dan een json file met een lijst van tijdseries conform de response van de DD-API. (De lijst is 1 lang als er om 1 punt is gevraagd |

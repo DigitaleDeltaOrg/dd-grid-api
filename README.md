@@ -18,7 +18,7 @@ In 2019 is de gewenste functionaliteit voor een web service voor roosterdata in 
 
 Een vergelijking van dit eerste voorstel met vergelijkbare ontwikkelingen bij OGC, de [OGC API Coverages](https://github.com/opengeospatial/ogc_api_coverages), leerde dat de voorgestelde response qua terminologie zeer verschillend maar qua structuur zeer vergelijkbaar is.  
 Daarom is besloten om de OGC API Coverages als basis te nemen, en te kijken in hoeverre we daarmee de beoogde functionaliteit kunnen realiseren. Deze slag is ondertussen uitgevoerd, heeft geleid tot versie 0.9 van de DD-GRID-API:
-- zie [dd-grid-api-documenation-nl.md](./voorstel/dd-grid-api-documenation-nl.md) voor een (Nederlandstalige) beschrijving van de de DD-GRID-API.<br>Deze is handmatig opgesteld. Een uit de OAS3-specificatie gegenereerde versie verschijnt binnenkort; daartoe moet eerst de documentatie in de specificatie worden uitgebreid.
+- zie [dd-grid-api-documentation-nl.md](./voorstel/dd-grid-api-documentation-nl.md) voor een (Nederlandstalige) beschrijving van de de DD-GRID-API.<br>Deze is handmatig opgesteld. Een uit de OAS3-specificatie gegenereerde versie verschijnt binnenkort; daartoe moet eerst de documentatie in de specificatie worden uitgebreid.
 - zie [voorstel/dd-grid-api-oas3.json](./voorstel/dd-grid-api-oas3.json) voor de OAS3-specificatie.<br>In deze specificatie wordt verwezen naar het schema voor de specificatie van de response [./voorstel/dd-grid-api-coverage-schema.json]. Van deze response zijn een tweetal [voorbeelden](./voorbeelden/voorbeelden.md) gegeven.
 
 Bij het uitwerken van de DD-GRID-API hebben we t.o.v. de OGC API Coverages nogal wat aanpassingen en uitbreidingen aangebracht. Deze zullen hier binnenkort worden beschreven.

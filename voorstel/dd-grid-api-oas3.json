@@ -126,6 +126,16 @@
 						"schema": {
 							"type": "string"
 						}
+					},
+					{
+						"name": "analysisTime",
+						"in": "query",
+						"description": "Filter on the time the coverage was created.\n",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date-time"
+						}
 					}
 				],
 				"responses": {
@@ -221,6 +231,55 @@
 					},
 					{
 						"$ref": "#/components/parameters/outputCrs"
+					},
+					{
+						"name": "areaOfInterest",
+						"in": "query",
+						"description": "WKT (Well Known Text) string that specifies the polygon where data is requested.\n",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "WKT"
+						}
+					},
+					{
+						"name": "startTime",
+						"in": "query",
+						"description": "Start time of the requested data. The result includes the start time.\n",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date-time"
+						}
+					},
+					{
+						"name": "endTime",
+						"in": "query",
+						"description": "End time of the requested data. The result includes the end time.\n",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date-time"
+						}
+					},
+					{
+						"name": "realization",
+						"in": "query",
+						"description": "Select a specific realization (in case of an ensemble run).\n",
+						"required": false,
+						"schema": {
+							"type": "integer"
+						}
+					},
+					{
+						"name": "point",
+						"in": "query",
+						"description": "Select one or more points for which to return a time series according to DD-API json format.\n",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"pattern": "[X,Y] or [X,Y];[X,Y];[X,Y];..."
+						}
 					}
 				],
 				"responses": {
@@ -345,43 +404,16 @@
 				"operationId": "getQuantities",
 				"parameters": [
 					{
-						"name": "pageSize",
-						"in": "query",
-						"description": "Page size for the paging mechanism",
-						"required": false,
-						"style": "form",
-						"explode": false,
-						"schema": {
-							"maximum": 10000,
-							"minimum": 1,
-							"type": "integer",
-							"default": 10
-						}
+						"$ref": "#/components/parameters/pageSize"
 					},
 					{
-						"name": "page",
-						"in": "query",
-						"description": "Page number in the paging mechanism",
-						"required": false,
-						"style": "form",
-						"explode": false,
-						"schema": {
-							"type": "string"
-						}
+						"$ref": "#/components/parameters/page"
 					},
 					{
 						"$ref": "#/components/parameters/boundingBox"
 					},
 					{
-						"name": "time",
-						"in": "query",
-						"description": "Either a date-time or a period string that adheres to RFC 3339. Examples:\n* A date-time: \"2018-02-12T23:20:50Z\" * A period: \"2018-02-12T00:00:00Z/2018-03-18T12:31:12Z\" or \"2018-02-12T00:00:00Z/P1M6DT12H31M12S\"\nOnly coverages that have a temporal property that intersects the value of `time` are selected.\nIf a collection has multiple temporal properties, it is the decision of the server whether only a single temporal property is used to determine the extent or all relevant temporal properties.",
-						"required": false,
-						"style": "form",
-						"explode": false,
-						"schema": {
-							"type": "string"
-						}
+						"$ref": "#/components/parameters/time"
 					}
 				],
 				"responses": {
@@ -684,7 +716,8 @@
 				"style": "form",
 				"explode": true,
 				"schema": {
-					"type": "string"
+					"type": "string",
+					"pattern": "aaaa or aaaa;bbbb;cccc;..."
 				}
 			},
 			"quantityNames": {
@@ -695,7 +728,8 @@
 				"style": "form",
 				"explode": true,
 				"schema": {
-					"type": "string"
+					"type": "string",
+					"pattern": "aaaa or aaaa;bbbb;cccc;..."
 				}
 			},
 			"outputCrs": {

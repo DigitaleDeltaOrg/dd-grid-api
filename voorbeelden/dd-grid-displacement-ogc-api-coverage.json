@@ -15,8 +15,7 @@
 			},
 			"realization": {
 				"lowerBound": 0,
-				"upperBound": 20,
-				"uomLabel": ""
+				"upperBound": 20
 			},
 			"t": {
 				"lowerBound": "2020-02-26T00:00:00Z",
@@ -29,12 +28,10 @@
 		"srsName": "https://epsg.org/28992",
 		"axis": {
 			"realization": {
-				"type": "IndexAxisType",
 				"lowerBound": 0,
 				"upperBound": 50
 			},
 			"t": {
-				"type": "RegularAxisType",
 				"lowerBound": "2020-02-26T00:00:00Z",
 				"upperBound": "2020-03-04T00:00:00Z",
 				"uomLabel": "s",
@@ -54,8 +51,8 @@
 	},
 	"rangeSet": {
 		"type": "RangeSetRefType",
-		"fileReference": [
-			"https://<path>/EemsDollard/20200226000000.nc"
+		"dataReference": [
+			"https://<path>/coverages/EemsDollard_20200226000000/data"
 		]
 	},
 	"rangeType": [

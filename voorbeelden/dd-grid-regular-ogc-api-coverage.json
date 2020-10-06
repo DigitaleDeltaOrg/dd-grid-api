@@ -15,40 +15,35 @@
 			},
 			"realization": {
 				"lowerBound": 0,
-				"upperBound": 20,
-				"uomLabel": ""
+				"upperBound": 20
 			},
 			"t": {
 				"lowerBound": "2020-02-26T00:00:00Z",
 				"upperBound": "2020-03-04T00:00:00Z",
-				"uomLabel": ""
+				"uomLabel": "s"
 			}
 		}
 	},
 	"domainSet": {
 		"srsName": "https://epsg.org/28992",
 		"axis": {
-			"x": {
-				"type": "RegularAxisType",
+			"lon": {
 				"lowerBound": 617934,
 				"upperBound": 625134,
 				"uomLabel": "m",
 				"resolution": 100
 			},
-			"y": {
-				"type": "RegularAxisType",
+			"lat": {
 				"lowerBound": 244024,
 				"upperBound": 269024,
 				"uomLabel": "m",
 				"resolution": 250
 			},
 			"realization": {
-				"type": "IndexAxisType",
 				"lowerBound": 0,
 				"upperBound": 50
 			},
 			"t": {
-				"type": "RegularAxisType",
 				"lowerBound": "2020-02-26T00:00:00Z",
 				"upperBound": "2020-03-04T00:00:00Z",
 				"uomLabel": "s",
@@ -58,8 +53,8 @@
 	},
 	"rangeSet": {
 		"type": "RangeSetRefType",
-		"fileReference": [
-			"https://<path>/EemsDollard/20200226000000.nc"
+		"dataReference": [
+			"https://<path>/coverages/EemsDollard_20200226000000/data"
 		]
 	},
 	"rangeType": [

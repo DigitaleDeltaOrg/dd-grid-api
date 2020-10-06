@@ -1,0 +1,415 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"title": "DD-GRID-API coverage object",
+	"description": "Digital Delta grid API coverage object. Derived from the OGC's Coverage Implementation Schema 1.1 (https://github.com/opengeospatial/ogc_api_coverages/blob/master/standard/openapi/coverage-schema.json)",
+	"type": "object",
+	"properties": {
+		"id": {
+			"type": "string"
+		},
+		"envelope": {
+			"$ref": "#/definitions/envelope"
+		},
+		"domainSet": {
+			"$ref": "#/definitions/domainSet"
+		},
+		"rangeSet": {
+			"$ref": "#/definitions/rangeSet"
+		},
+		"rangeType": {
+			"$ref": "#/definitions/rangeType"
+		},
+		"metadata": {
+			"$ref": "#/definitions/metadata"
+		}
+	},
+	"required": [
+		"domainSet",
+		"rangeSet",
+		"rangeType"
+	],
+	"definitions": {
+		"latLonRange": {
+			"description": "Range and unit of the lon or the lat axis in the envelope",
+			"type": "object",
+			"properties": {
+				"lowerBound": {
+					"anyOf": [
+						{
+							"type": "number"
+						},
+						{
+							"type": "string",
+							"format": "date-time"
+						}
+					]
+				},
+				"upperBound": {
+					"anyOf": [
+						{
+							"type": "number"
+						},
+						{
+							"type": "string",
+							"format": "date-time"
+						}
+					]
+				},
+				"uomLabel": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"lowerBound",
+				"upperBound",
+				"uomLabel"
+			],
+			"additionalProperties": false
+		},
+		"realizationRange": {
+			"description": "Range of the realization axis",
+			"type": "object",
+			"properties": {
+				"lowerBound": {
+					"type": "integer"
+				},
+				"upperBound": {
+					"type": "integer"
+				}
+			},
+			"required": [
+				"lowerBound",
+				"upperBound"
+			],
+			"additionalProperties": false
+		},
+		"timeRange": {
+			"description": "Range and unit of the time axis",
+			"type": "object",
+			"properties": {
+				"lowerBound": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"upperBound": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"uomLabel": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"lowerBound",
+				"upperBound",
+				"uomLabel"
+			],
+			"additionalProperties": false
+		},
+		"latLonRangeAndStep": {
+			"description": "Range, unit and resolution of the lon/x or the lat/y axis in the domainSet",
+			"type": "object",
+			"properties": {
+				"lowerBound": {
+					"anyOf": [
+						{
+							"type": "number"
+						},
+						{
+							"type": "string",
+							"format": "date-time"
+						}
+					]
+				},
+				"upperBound": {
+					"anyOf": [
+						{
+							"type": "number"
+						},
+						{
+							"type": "string",
+							"format": "date-time"
+						}
+					]
+				},
+				"uomLabel": {
+					"type": "string"
+				},
+				"resolution": {
+					"type": "integer"
+				}
+			},
+			"required": [
+				"lowerBound",
+				"upperBound",
+				"uomLabel",
+				"resolution"
+			],
+			"additionalProperties": false
+		},
+		"timeRangeAndStep": {
+			"description": "Range, unit and resolution of the time axis in the domainSet",
+			"type": "object",
+			"properties": {
+				"lowerBound": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"upperBound": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"uomLabel": {
+					"type": "string"
+				},
+				"resolution": {
+					"type": "integer"
+				}
+			},
+			"required": [
+				"lowerBound",
+				"upperBound",
+				"uomLabel",
+				"resolution"
+			],
+			"additionalProperties": false
+		},
+		"envelopeAxis": {
+			"title": "Envelope axes",
+			"description": "The axes (lon, lat, [realization,] t) in the envelope",
+			"type": "object",
+			"properties": {
+				"lon": {
+					"$ref": "#/definitions/latLonRange"
+				},
+				"lat": {
+					"$ref": "#/definitions/latLonRange"
+				},
+				"realization": {
+					"$ref": "#/definitions/realizationRange"
+				},
+				"t": {
+					"$ref": "#/definitions/timeRange"
+				}
+			},
+			"required": [
+				"lon",
+				"lat",
+				"t"
+			],
+			"additionalProperties": false
+		},
+		"fullRegularDomainAxes": {
+			"title": "DomainSet axes",
+			"description": "The axes (lon/x, lat/y, [realization,] t) in the domainSet",
+			"type": "object",
+			"properties": {
+				"lon": {
+					"$ref": "#/definitions/latLonRangeAndStep"
+				},
+				"lat": {
+					"$ref": "#/definitions/latLonRangeAndStep"
+				},
+				"realization": {
+					"$ref": "#/definitions/realizationRange"
+				},
+				"t": {
+					"$ref": "#/definitions/timeRangeAndStep"
+				}
+			},
+			"required": [
+				"lon",
+				"lat",
+				"t"
+			],
+			"additionalProperties": false
+		},
+		"timeRealizationDomainAxes": {
+			"title": "DomainSet axes, time and realization only (used in displaced coverage)",
+			"description": "The axes (lon/x, lat/y, [realization,] t) in the domainSet",
+			"type": "object",
+			"properties": {
+				"realization": {
+					"$ref": "#/definitions/realizationRange"
+				},
+				"t": {
+					"$ref": "#/definitions/timeRangeAndStep"
+				}
+			},
+			"required": [
+				"t"
+			],
+			"additionalProperties": false
+		},
+		"displacedDomainAxes": {
+			"title": "DomainSet axes for displaced (i.e. curvilinear grid)",
+			"description": "The names and units of the curvilinear axes in a displaced grid",
+			"type": "object",
+			"properties": {
+				"axisLabels": {
+					"type": "array",
+					"minItems": 2,
+					"maxItems": 3,
+					"items": {
+						"type": "string"
+					}
+				},
+				"uomLabels": {
+					"type": "array",
+					"minItems": 2,
+					"maxItems": 3,
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"axisLabels",
+				"uomLabels"
+			],
+			"additionalProperties": false
+		},
+		"envelope": {
+			"title": "envelope",
+			"description": "The envelope around a coverage is defined by the lower and upper bound of each axis, respectively. The purpose of the axisLabels attribute, which lists the axis labels of all axisExtent elements in proper sequence, is to enforce axis sequence also in XML systems which do not preserve document order.",
+			"type": "object",
+			"properties": {
+				"srsName": {
+					"type": "string",
+					"format": "uri"
+				},
+				"axis": {
+					"$ref": "#/definitions/envelopeAxis"
+				}
+			},
+			"required": [
+				"srsName",
+				"axis"
+			]
+		},
+		"domainSet": {
+			"title": "domainSet",
+			"description": "The domainSet describes the *direct positions* of the coverage, i.e., the locations for which values are available.",
+			"type": "object",
+			"oneOf": [
+				{
+					"properties": {
+						"srsName": {
+							"type": "string",
+							"format": "uri"
+						},
+						"axis": {
+							"$ref": "#/definitions/fullRegularDomainAxes"
+						}
+					},
+					"required": [
+						"srsName",
+						"axis"
+					]
+				},
+				{
+					"properties": {
+						"srsName": {
+							"type": "string",
+							"format": "uri"
+						},
+						"axis": {
+							"$ref": "#/definitions/timeRealizationDomainAxes"
+						},
+						"displacement": {
+							"title": "Definition of the desplacement",
+							"description": "Specification of the curvilinear grid lines (lat/lon or x/y points)",
+							"$ref": "#/definitions/displacedDomainAxes"
+						}
+					},
+					"required": [
+						"srsName",
+						"axis",
+						"displacement"
+					]
+				}
+			]
+		},
+		"rangeSet": {
+			"title": "rangeSet",
+			"description": "The rangeSet lists a value for each of the coverage's direct positions. Values resemble the *payload* information of some particular direct positions. Values can be composite (with a single nesting level, i.e.: composites always consist of atomics), or atomic (emulated through single-component composites) whereby the sequence, structure, and meaning of every value is defined through the rangeType. Values can be represented in-line or by reference to an external file which may have any suitable encoding.",
+			"type": "object",
+			"properties": {
+				"type": {
+					"enum": [
+						"RangeSetRefType"
+					]
+				},
+				"dataReference": {
+					"type": "array",
+					"items": {
+						"type": "string",
+						"format": "uri"
+					}
+				}
+			},
+			"required": [
+				"type",
+				"dataReference"
+			]
+		},
+		"rangeType": {
+			"title": "rangeType",
+			"description": "The rangeType element describes the structure and semantics of a coverage's range values, including (optionally) restrictions on the interpolation allowed on such values.",
+			"type": "array",
+			"items": {
+				"title": "quantity",
+				"description": "quantiy",
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"uom": {
+						"title": "units of measure",
+						"description": "units of measure",
+						"type": "object",
+						"properties": {
+							"code": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"code"
+						]
+					},
+					"definitions": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"standard": {
+									"type": "string"
+								},
+								"code": {
+									"type": "string"
+								},
+								"name": {
+									"type": "string"
+								},
+								"reference": {
+									"type": "string",
+									"format": "uri"
+								}
+							},
+							"required": [
+								"standard",
+								"code"
+							]
+						}
+					}
+				}
+			}
+		},
+		"metadata": {
+			"title": "Metadata",
+			"description": "The metadata element is a container of any (not further specified) information which should be transported along with the coverage on hand, such as domain-specific metadata.",
+			"type": "object"
+		}
+	}
+}

@@ -1,748 +1,1168 @@
 {
-	"openapi": "3.0.2",
-	"info": {
-		"title": "Draft version of the DD-GRID-API, derived from the OGC API - Coverages (https://github.com/opengeospatial/ogc_api_coverages)",
-		"description": "See <see href=\"https://github.com/DigitaleDeltaOrg/dd-grid-api\"> for additional information",
-		"contact": {
-			"name": "Digitale Delta werkgroep",
-			"url": "http://www.digitaledelta.org",
-			"email": "email.not.yet.available@digitaledelta.org"
-		},
-		"license": {
-			"name": "APACHE LICENSE, VERSION 2.0",
-			"url": "https://www.apache.org/licenses/LICENSE-2.0"
-		},
-		"version": "0.9"
-	},
-	"tags": [
-		{
-			"name": "Capabilities",
-			"description": "Essential characteristics of this API including information about the data."
-		},
-		{
-			"name": "Coverage",
-			"description": "Access to data (coverage)."
-		}
-	],
-	"paths": {
-		"/": {
-			"get": {
-				"tags": [
-					"Capabilities"
-				],
-				"summary": "Landing page of this API",
-				"description": "The landing page provides links to the API definition, the Conformance statements and the metadata about the coverage data in this dataset.",
-				"operationId": "getLandingPage",
-				"parameters": [
-				],
-				"responses": {
-					"200": {
-						"description": "links to the API capabilities",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/root"
-								}
-							},
-							"text/html": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/api": {
-			"get": {
-				"tags": [
-					"Capabilities"
-				],
-				"summary": "API definition",
-				"description": "most likely returning the document at hand",
-				"responses": {
-					"200": {
-						"description": "most likely returning the document at hand",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/paths/~1api"
-								}
-							}
-						}
-					},
-					"default": {
-						"description": "An error occured.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/exception"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/coverages": {
-			"get": {
-				"tags": [
-					"Capabilities"
-				],
-				"summary": "Get the coverages offered by the provider",
-				"operationId": "getCoverages",
-				"parameters": [
-					{
-						"$ref": "#/components/parameters/pageSize"
-					},
-					{
-						"$ref": "#/components/parameters/page"
-					},
-					{
-						"$ref": "#/components/parameters/boundingBox"
-					},
-					{
-						"$ref": "#/components/parameters/time"
-					},
-					{
-						"name": "quantityId",
-						"in": "query",
-						"description": "Select only the coverages that contain the quantity identified by \"quantityId\"\n",
-						"required": false,
-						"style": "form",
-						"explode": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "quantityName",
-						"in": "query",
-						"description": "Select only the coverages that contain the quantity identified by \"quantityName\"\n",
-						"required": false,
-						"style": "form",
-						"explode": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "analysisTime",
-						"in": "query",
-						"description": "Filter on the time the coverage was created.\n",
-						"required": false,
-						"schema": {
-							"type": "string",
-							"format": "date-time"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Metadata about the coverages exposed by the system.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/coveragelist"
-								}
-							}
-						}
-					},
-					"default": {
-						"description": "An error occured.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/error"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/coverages/{coverageId}": {
-			"get": {
-				"tags": [
-					"Capabilities"
-				],
-				"summary": "All metadata the coverage identified by {coverageId}.",
-				"description": "All metadata the coverage identified by {coverageId}.",
-				"operationId": "getCoverage",
-				"parameters": [
-					{
-						"$ref": "#/components/parameters/coverageId"
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Metadata of the coverage identified by {coverageId}.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/coverage"
-								}
-							},
-							"text/html": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						}
-					},
-					"default": {
-						"description": "An error occured.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/exception"
-								}
-							},
-							"text/html": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/coverages/{coverageId}/data": {
-			"get": {
-				"tags": [
-					"Coverage"
-				],
-				"summary": "retrieve a coverages rangeset, or subset of that rangeset",
-				"operationId": "getCoverageData",
-				"parameters": [
-					{
-						"$ref": "#/components/parameters/coverageId"
-					},
-					{
-						"$ref": "#/components/parameters/boundingBox"
-					},
-					{
-						"$ref": "#/components/parameters/quantityIds"
-					},
-					{
-						"$ref": "#/components/parameters/quantityNames"
-					},
-					{
-						"$ref": "#/components/parameters/outputCrs"
-					},
-					{
-						"name": "areaOfInterest",
-						"in": "query",
-						"description": "WKT (Well Known Text) string that specifies the polygon where data is requested.\n",
-						"required": false,
-						"schema": {
-							"type": "string",
-							"format": "WKT"
-						}
-					},
-					{
-						"name": "startTime",
-						"in": "query",
-						"description": "Start time of the requested data. The result includes the start time.\n",
-						"required": false,
-						"schema": {
-							"type": "string",
-							"format": "date-time"
-						}
-					},
-					{
-						"name": "endTime",
-						"in": "query",
-						"description": "End time of the requested data. The result includes the end time.\n",
-						"required": false,
-						"schema": {
-							"type": "string",
-							"format": "date-time"
-						}
-					},
-					{
-						"name": "realization",
-						"in": "query",
-						"description": "Select a specific realization (in case of an ensemble run).\n",
-						"required": false,
-						"schema": {
-							"type": "integer"
-						}
-					},
-					{
-						"name": "point",
-						"in": "query",
-						"description": "Select one or more points for which to return a time series according to DD-API json format.\n",
-						"required": false,
-						"schema": {
-							"type": "string",
-							"pattern": "[X,Y] or [X,Y];[X,Y];[X,Y];..."
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "(A subset of) The actual coverage data.",
-						"content": {
-							"application/octet-stream": {
-								"schema": {
-									"$ref": "http://cfconventions.org/Data/cf-conventions/cf-conventions-1.8/cf-conventions.html"
-								}
-							}
-						}
-					},
-					"default": {
-						"description": "An error occured.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/exception"
-								}
-							},
-							"text/html": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/dataformats": {
-			"get": {
-				"tags": [
-					"Coverage"
-				],
-				"summary": "Get the list of supported output data formats",
-				"operationId": "getDataFormats",
-				"parameters": [
-				],
-				"responses": {
-					"200": {
-						"description": "List of supported output data formats.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "array",
-									"minItems": 1,
-									"items": {
-										"type": "string"
-									}
-								}
-							}
-						}
-					},
-					"default": {
-						"description": "An error occured.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/exception"
-								}
-							},
-							"text/html": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/outputCrss": {
-			"get": {
-				"tags": [
-					"Coverage"
-				],
-				"summary": "Get the list of the supported output coordinate reference systems / projections",
-				"operationId": "getTargetProjections",
-				"parameters": [
-				],
-				"responses": {
-					"200": {
-						"description": "List of supported output coordinate reference systems / projections",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "array",
-									"minItems": 1,
-									"items": {
-										"type": "string"
-									}
-								}
-							}
-						}
-					},
-					"default": {
-						"description": "An error occured.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/exception"
-								}
-							},
-							"text/html": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/quantities": {
-			"get": {
-				"tags": [
-					"Capabilities"
-				],
-				"summary": "describe all quantities in the system",
-				"operationId": "getQuantities",
-				"parameters": [
-					{
-						"$ref": "#/components/parameters/pageSize"
-					},
-					{
-						"$ref": "#/components/parameters/page"
-					},
-					{
-						"$ref": "#/components/parameters/boundingBox"
-					},
-					{
-						"$ref": "#/components/parameters/time"
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Metadata about the quantities shared by this API.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/quantitylist"
-								}
-							}
-						}
-					},
-					"default": {
-						"description": "An error occured.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/exception"
-								}
-							},
-							"text/html": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	},
-	"components": {
-		"schemas": {
-			"exception": {
-				"type": "object",
-				"properties": {
-					"type": {
-						"description": "Type of error.",
-						"type": "string",
-						"format": "uri"
-					},
-					"title": {
-						"description": "Title of the error.",
-						"example": "Error processing the request.",
-						"type": "string"
-					},
-					"status": {
-						"description": "The HTTP error code number (HTTP Status Code).",
-						"example": 404,
-						"type": "integer"
-					},
-					"detail": {
-						"description": "Details of the error",
-						"example": "Request resulted in a response that was too large.",
-						"type": "string"
-					},
-					"instance": {
-						"description": "Reference to the error for the provider.",
-						"example": "https://myservice/meaningOrError400",
-						"type": "string"
-					},
-					"errors": {
-						"description": "Error details. More than one error can occur within the problem.",
-						"type": "array",
-						"items": {
-							"description": "Defines the field of an error in the filtering syntax.",
-							"type": "object",
-							"properties": {
-								"errorType": {
-									"example": "Unknown comparer.",
-									"type": "string"
-								},
-								"context": {
-									"example": "Field 'locationCode'.",
-									"type": "string"
-								}
-							},
-							"required": [
-								"errorType",
-								"context"
-							]
-						}
-					}
-				}
-			},
-			"paginglinks": {
-				"required": [
-					"defaultPageSize"
-				],
-				"type": "object",
-				"properties": {
-					"self": {
-						"type": "string",
-						"description": "Hyperlink of the current page.",
-						"nullable": true
-					},
-					"prev": {
-						"type": "string",
-						"description": "Hyperlink of the previous page.",
-						"nullable": true
-					},
-					"next": {
-						"type": "string",
-						"description": "Hyperlink of the next page.",
-						"nullable": true
-					},
-					"maxPageSize": {
-						"type": "integer",
-						"description": "Maximum page size.",
-						"format": "int32",
-						"nullable": true
-					},
-					"defaultPageSize": {
-						"type": "integer",
-						"description": "Default page size.",
-						"format": "int32"
-					},
-					"minPageSize": {
-						"type": "integer",
-						"description": "Minimum page size.",
-						"format": "int32"
-					},
-					"totalObjectCount": {
-						"type": "integer",
-						"description": "Count of all entities that satisfy the filter requirements. Will be left out when nocount=true is specified.",
-						"format": "int32",
-						"nullable": true
-					}
-				},
-				"additionalProperties": false,
-				"description": "Provides information for paging."
-			},
-			"coveragelist": {
-				"required": [
-					"provider",
-					"paging",
-					"result"
-				],
-				"type": "object",
-				"properties": {
-					"provider": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/providerblock"
-							}
-						],
-						"description": "Information about the provider.",
-						"nullable": true
-					},
-					"paging": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/paginglinks"
-							}
-						]
-					},
-					"result": {
-						"type": "array",
-						"items": {
-							"$ref": "#/components/schemas/coverage"
-						},
-						"description": "Query results."
-					}
-				},
-				"additionalProperties": false,
-				"description": "List of coverages that meet the query (i.e. the set of filter parameters)."
-			},
-			"coverage": {
-				"required": [
-					"provider"
-				],
-				"type": "object",
-				"properties": {
-					"id": {
-						"type": "string"
-					},
-					"envelope": {
-						"$ref": "https://github.com/DigitaleDeltaOrg/dd-grid-api/blob/master/voorstel/dd-grid-api-coverage-schema.json#definitions/envelope"
-					},
-					"domainSet": {
-						"$ref": "https://github.com/DigitaleDeltaOrg/dd-grid-api/blob/master/voorstel/dd-grid-api-coverage-schema.json#definitions/domainSet"
-					},
-					"rangeSet": {
-						"$ref": "https://github.com/DigitaleDeltaOrg/dd-grid-api/blob/master/voorstel/dd-grid-api-coverage-schema.json#definitions/rangeSet"
-					},
-					"rangeType": {
-						"$ref": "https://github.com/DigitaleDeltaOrg/dd-grid-api/blob/master/voorstel/dd-grid-api-coverage-schema.json#definitions/rangeType"
-					},
-					"metadata": {
-						"$ref": "https://github.com/DigitaleDeltaOrg/dd-grid-api/blob/master/voorstel/dd-grid-api-coverage-schema.json#definitions/metadata"
-					}
-				},
-				"additionalProperties": false,
-				"description": "Metadta."
-			},
-			"quantitylist": {
-				"required": [
-					"provider",
-					"paging",
-					"result"
-				],
-				"type": "object",
-				"properties": {
-					"provider": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/providerblock"
-							}
-						],
-						"description": "Information about the provider.",
-						"nullable": true
-					},
-					"paging": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/paginglinks"
-							}
-						]
-					},
-					"result": {
-						"type": "array",
-						"items": {
-							"$ref": "https://github.com/DigitaleDeltaOrg/dd-grid-api/blob/master/voorstel/dd-grid-api-coverage-schema.json/rangeType"
-						},
-						"description": "Query results."
-					}
-				},
-				"additionalProperties": false,
-				"description": "List of quantities that meet the query (i.e. the set of filter parameters)."
-			}
-		},
-		"parameters": {
-			"pageSize": {
-				"name": "pageSize",
-				"in": "query",
-				"description": "Page size for the paging mechanism",
-				"required": false,
-				"style": "form",
-				"explode": false,
-				"schema": {
-					"maximum": 10000,
-					"minimum": 1,
-					"type": "integer",
-					"default": 10
-				}
-			},
-			"page": {
-				"name": "page",
-				"in": "query",
-				"description": "Page number in the paging mechanism",
-				"required": false,
-				"style": "form",
-				"explode": false,
-				"schema": {
-					"type": "string"
-				}
-			},
-			"coverageId": {
-				"name": "coverageId",
-				"in": "path",
-				"description": "Identifier (name) of a specific coverage",
-				"required": true,
-				"schema": {
-					"type": "string"
-				}
-			},
-			"boundingBox": {
-				"name": "boundingBox",
-				"in": "query",
-				"description": "Only coverages that have a geometry that intersects the bounding box are selected. The bounding box is provided as four or six numbers, depending on whether the coordinate reference system includes a vertical axis (elevation or depth):\n* Lower left corner, coordinate axis 1 * Lower left corner, coordinate axis 2 * Lower left corner, coordinate axis 3 (optional) * Upper right corner, coordinate axis 1 * Upper right corner, coordinate axis 2 * Upper right corner, coordinate axis 3 (optional)\nThe coordinate reference system of the values is WGS84 longitude/latitude (http://www.opengis.net/def/crs/OGC/1.3/CRS84).\nFor WGS84 longitude/latitude the values are in most cases the sequence of minimum longitude, minimum latitude, maximum longitude and maximum latitude. However, in cases where the box spans the antimeridian the first value (west-most box edge) is larger than the third value (east-most box edge).\nIf a collection has multiple spatial geometry properties, it is the decision of the server whether only a single spatial geometry property is used to determine the extent or all relevant geometries.\n",
-				"required": false,
-				"style": "form",
-				"explode": false,
-				"schema": {
-					"maxItems": 6,
-					"minItems": 4,
-					"type": "array",
-					"items": {
-						"type": "number"
-					}
-				}
-			},
-			"time": {
-				"name": "time",
-				"in": "query",
-				"description": "Either a date-time or a period string that adheres to RFC 3339. Examples:\n* A date-time: \"2018-02-12T23:20:50Z\" * A period: \"2018-02-12T00:00:00Z/2018-03-18T12:31:12Z\" or \"2018-02-12T00:00:00Z/P1M6DT12H31M12S\"\nOnly coverages that have a temporal property that intersects the value of `time` are selected.\nIf a collection has multiple temporal properties, it is the decision of the server whether only a single temporal property is used to determine the extent or all relevant temporal properties.",
-				"required": false,
-				"style": "form",
-				"explode": false,
-				"schema": {
-					"type": "string"
-				}
-			},
-			"quantityIds": {
-				"name": "quantityIds",
-				"in": "query",
-				"description": "Get a subset of the quantities in the coverage (quantity identifiers separated by ';')",
-				"required": false,
-				"style": "form",
-				"explode": true,
-				"schema": {
-					"type": "string",
-					"pattern": "aaaa or aaaa;bbbb;cccc;..."
-				}
-			},
-			"quantityNames": {
-				"name": "quantityNames",
-				"in": "query",
-				"description": "Get a subset of the quantities in the coverage (quantity names separated by ';')",
-				"required": false,
-				"style": "form",
-				"explode": true,
-				"schema": {
-					"type": "string",
-					"pattern": "aaaa or aaaa;bbbb;cccc;..."
-				}
-			},
-			"outputCrs": {
-				"name": "outputcrs",
-				"in": "query",
-				"description": "reproject the output coverage to the given",
-				"required": false,
-				"style": "form",
-				"explode": true,
-				"schema": {
-					"type": "string"
-				}
-			}
-		}
-	}
+    "openapi": "3.0.2",
+    "info": {
+        "title": "DD-GRID-API",
+        "description": "Digital Delta API for grid data. See https://github.com/DigitaleDeltaOrg/dd-grid-api for additional information",
+        "contact": {
+            "name": "Digitale Delta werkgroep",
+            "url": "http://www.digitaledelta.org",
+            "email": "email.not.yet.available@digitaledelta.org"
+        },
+        "license": {
+            "name": "APACHE LICENSE, VERSION 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        "version": "0.95"
+    },
+    "servers": [
+        {
+            "url": "https://griddata.some-dd-provider.nl",
+            "description": "One of the providers implementing the DD-GRID-API"
+        }
+    ],
+    "tags": [
+        {
+            "name": "General info",
+            "description": "The DD-GRID-API offers a web service by means of which one can look for and request data on rasters and curvilinear grids (i.e. on coverages).\nSee https://github.com/DigitaleDeltaOrg/dd-grid-api/blob/master/dd-grid-api-documentation-nl.md for a general description of the end points (currently in Dutch)."
+        },
+        {
+            "name": "Coverage end points",
+            "description": "The DD-GRID-API consists of a set of end points to retrieve metadata about, and the actual data on rasters and curvilinear grids (i.e. coverages)"
+        }
+    ],
+    "paths": {
+        "/": {
+            "get": {
+                "tags": [
+                    "General info"
+                ],
+                "summary": "Landing page of the system that implements the DD-GRID-API",
+                "description": "The landing page describes the type of coverages available in the system, and provides links to the DD-GRID-API documentation.",
+                "operationId": "getLandingPage",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Landing page of the system that implements the DD-GRID-API",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api": {
+            "get": {
+                "tags": [
+                    "General info"
+                ],
+                "summary": "DD-GRID-API implemention",
+                "description": "Get a list of the DD-GRID-API end points implemented by the system.",
+                "operationId": "getApiImplemention",
+                "responses": {
+                    "200": {
+                        "description": "List of the DD-GRID-API end points.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An error occured.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/exception"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/coverages": {
+            "get": {
+                "tags": [
+                    "Coverage end points"
+                ],
+                "summary": "The coverages offered by the provider",
+                "description": "Returns a list with the description of the available coverages, without the actual data. This can be a mixture of grids and curvilinear grids. ",
+                "operationId": "getCoverages",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/pageSize"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/boundingBox"
+                    },
+                    {
+                        "$ref": "#/components/parameters/startTime"
+                    },
+                    {
+                        "$ref": "#/components/parameters/endTime"
+                    },
+                    {
+                        "name": "quantityId",
+                        "in": "query",
+                        "description": "Only return the coverages that contain data for the quantity with id \"quantityId\"",
+                        "required": false,
+                        "style": "form",
+                        "explode": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "quantityName",
+                        "in": "query",
+                        "description": "Only return the coverages that contain data for the quantity with name \"quantityName\"",
+                        "required": false,
+                        "style": "form",
+                        "explode": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "analysisTime",
+                        "in": "query",
+                        "description": "Only return the coverages that were produced (i.e. were calculated by a model) at the stated \"analysisTime\".",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Metadata about the coverages exposed by the system.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/coveragelist"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An error occured.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/exception"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/coverages/{coverageId}": {
+            "get": {
+                "tags": [
+                    "Coverage end points"
+                ],
+                "summary": "The metadata of a coverage.",
+                "description": "All metadata the coverage identified by {coverageId}.",
+                "operationId": "getCoverage",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/coverageId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Metadata of the coverage identified by {coverageId}.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/coverage"
+                                }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An error occured.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/exception"
+                                }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/coverages/{coverageId}/data": {
+            "get": {
+                "tags": [
+                    "Coverage end points"
+                ],
+                "summary": "Retrieve the coverage data",
+                "description": "Retrieve the rangeset of a coverage (i.e. its data), or subset of that rangeset.",
+                "operationId": "getCoverageData",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/coverageId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/boundingBox"
+                    },
+                    {
+                        "$ref": "#/components/parameters/quantityIds"
+                    },
+                    {
+                        "$ref": "#/components/parameters/quantityNames"
+                    },
+                    {
+                        "$ref": "#/components/parameters/outputCrs"
+                    },
+                    {
+                        "name": "areaOfInterest",
+                        "in": "query",
+                        "description": "WKT (Well Known Text) string that specifies the polygon where data is requested.\n",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "WKT"
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/startTime"
+                    },
+                    {
+                        "$ref": "#/components/parameters/endTime"
+                    },
+                    {
+                        "name": "realization",
+                        "in": "query",
+                        "description": "Select a specific realization (in case of an ensemble run).\n",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "point",
+                        "in": "query",
+                        "description": "Select one or more points for which to return a time series according to DD-API json format.\n",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "pattern": "[X,Y] or [X,Y];[X,Y];[X,Y];..."
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "(A subset of) The actual coverage data, returned as a netcdf-cdf file (see http://cfconventions.org/Data/cf-conventions/cf-conventions-1.8/cf-conventions.html)",
+                        "content": {
+                            "application/octet-stream": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/exception"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An error occured.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/dataformats": {
+            "get": {
+                "tags": [
+                    "Coverage end points"
+                ],
+                "summary": "Supported data file formats.",
+                "description": "Returns the list of data file formats in which the system can provide the grid data can be delivered. The list contains at least netcdf-cf",
+                "operationId": "getDataFormats",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "List of supported output data file formats.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "minItems": 1,
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An error occured.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/exception"
+                                }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/outputCrss": {
+            "get": {
+                "tags": [
+                    "Coverage end points"
+                ],
+                "summary": "The list of the supported output CRS's",
+                "description": "Returns the list of projections to which the requested data can be transformed.",
+                "operationId": "getOutputCoordRefSystems",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "List of supported output coordinate reference systems / projections",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "minItems": 1,
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An error occured.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/exception"
+                                }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/quantities": {
+            "get": {
+                "tags": [
+                    "Coverage end points"
+                ],
+                "summary": "describe all quantities in the system",
+                "description": "Returns the list of quantities that are available on one or more coverages in the providing system.",
+                "operationId": "getQuantities",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/pageSize"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/boundingBox"
+                    },
+                    {
+                        "$ref": "#/components/parameters/startTime"
+                    },
+                    {
+                        "$ref": "#/components/parameters/endTime"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Metadata about the quantities available in the system.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/quantitylist"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An error occured.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/exception"
+                                }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "exception": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "description": "Type of error.",
+                        "type": "string",
+                        "format": "uri"
+                    },
+                    "title": {
+                        "description": "Title of the error.",
+                        "example": "Error processing the request.",
+                        "type": "string"
+                    },
+                    "status": {
+                        "description": "The HTTP error code number (HTTP Status Code).",
+                        "example": 404,
+                        "type": "integer"
+                    },
+                    "detail": {
+                        "description": "Details of the error",
+                        "example": "Request resulted in a response that was too large.",
+                        "type": "string"
+                    },
+                    "instance": {
+                        "description": "Reference to the error for the provider.",
+                        "example": "https://myservice/meaningOrError400",
+                        "type": "string"
+                    },
+                    "errors": {
+                        "description": "Error details. More than one error can occur within the problem.",
+                        "type": "array",
+                        "items": {
+                            "description": "Defines the field of an error in the filtering syntax.",
+                            "type": "object",
+                            "properties": {
+                                "errorType": {
+                                    "example": "Unknown comparer.",
+                                    "type": "string"
+                                },
+                                "context": {
+                                    "example": "Field 'locationCode'.",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "errorType",
+                                "context"
+                            ]
+                        }
+                    }
+                }
+            },
+            "paginglinks": {
+                "required": [
+                    "defaultPageSize"
+                ],
+                "type": "object",
+                "properties": {
+                    "self": {
+                        "type": "string",
+                        "description": "Hyperlink of the current page.",
+                        "nullable": true
+                    },
+                    "prev": {
+                        "type": "string",
+                        "description": "Hyperlink of the previous page.",
+                        "nullable": true
+                    },
+                    "next": {
+                        "type": "string",
+                        "description": "Hyperlink of the next page.",
+                        "nullable": true
+                    },
+                    "maxPageSize": {
+                        "type": "integer",
+                        "description": "Maximum page size.",
+                        "format": "int32",
+                        "nullable": true
+                    },
+                    "defaultPageSize": {
+                        "type": "integer",
+                        "description": "Default page size.",
+                        "format": "int32"
+                    },
+                    "minPageSize": {
+                        "type": "integer",
+                        "description": "Minimum page size.",
+                        "format": "int32"
+                    },
+                    "totalObjectCount": {
+                        "type": "integer",
+                        "description": "Count of all entities that satisfy the filter requirements. Will be left out when nocount=true is specified.",
+                        "format": "int32",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false,
+                "description": "Provides information for paging."
+            },
+            "provider": {
+                "description": "Information regarding the system that is responsible for the response. Provides support contact information in case there are issues with response format or content.",
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "description": "Name of the provider (of the service).",
+                        "type": "string"
+                    },
+                    "supportUrl": {
+                        "description": "Url to information for the provider (of the service).",
+                        "type": "string"
+                    },
+                    "apiVersion": {
+                        "description": "API Version with which the result set was generated. Can be used to parse the response.",
+                        "type": "string"
+                    },
+                    "responseType": {
+                        "description": "Name of the type of the result set. Can be used to parse the response.",
+                        "type": "string"
+                    },
+                    "responseTimestamp": {
+                        "description": "Timestamp when this response was created.",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "coveragelist": {
+                "required": [
+                    "provider",
+                    "paging",
+                    "result"
+                ],
+                "type": "object",
+                "properties": {
+                    "provider": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/provider"
+                            }
+                        ],
+                        "description": "Information about the provider.",
+                        "nullable": true
+                    },
+                    "paging": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/paginglinks"
+                            }
+                        ]
+                    },
+                    "result": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/coverage"
+                        },
+                        "description": "Query results."
+                    }
+                },
+                "additionalProperties": false,
+                "description": "List of coverages that meet the query (i.e. the set of filter parameters)."
+            },
+            "coverage": {
+                "required": [
+                    "domainSet",
+                    "rangeSet",
+                    "rangeType"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "envelope": {
+                        "$ref": "#/components/schemas/envelope"
+                    },
+                    "domainSet": {
+                        "$ref": "#/components/schemas/domainSet"
+                    },
+                    "rangeSet": {
+                        "$ref": "#/components/schemas/rangeSet"
+                    },
+                    "rangeType": {
+                        "$ref": "#/components/schemas/rangeType"
+                    },
+                    "metadata": {
+                        "$ref": "#/components/schemas/metadata"
+                    }
+                },
+                "additionalProperties": false,
+                "description": "Metadta."
+            },
+            "latLonRange": {
+                "description": "Range and unit of the lon or the lat axis in the envelope",
+                "type": "object",
+                "properties": {
+                    "lowerBound": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string",
+                                "format": "date-time"
+                            }
+                        ]
+                    },
+                    "upperBound": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string",
+                                "format": "date-time"
+                            }
+                        ]
+                    },
+                    "uomLabel": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "lowerBound",
+                    "upperBound",
+                    "uomLabel"
+                ],
+                "additionalProperties": false
+            },
+            "realizationRange": {
+                "description": "Range of the realization axis",
+                "type": "object",
+                "properties": {
+                    "lowerBound": {
+                        "type": "integer"
+                    },
+                    "upperBound": {
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "lowerBound",
+                    "upperBound"
+                ],
+                "additionalProperties": false
+            },
+            "timeRange": {
+                "description": "Range and unit of the time axis",
+                "type": "object",
+                "properties": {
+                    "lowerBound": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "upperBound": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "uomLabel": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "lowerBound",
+                    "upperBound",
+                    "uomLabel"
+                ],
+                "additionalProperties": false
+            },
+            "latLonRangeAndStep": {
+                "description": "Range, unit and resolution of the lon/x or the lat/y axis in the domainSet",
+                "type": "object",
+                "properties": {
+                    "lowerBound": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string",
+                                "format": "date-time"
+                            }
+                        ]
+                    },
+                    "upperBound": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string",
+                                "format": "date-time"
+                            }
+                        ]
+                    },
+                    "uomLabel": {
+                        "type": "string"
+                    },
+                    "resolution": {
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "lowerBound",
+                    "upperBound",
+                    "uomLabel",
+                    "resolution"
+                ],
+                "additionalProperties": false
+            },
+            "timeRangeAndStep": {
+                "description": "Range, unit and resolution of the time axis in the domainSet",
+                "type": "object",
+                "properties": {
+                    "lowerBound": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "upperBound": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "uomLabel": {
+                        "type": "string"
+                    },
+                    "resolution": {
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "lowerBound",
+                    "upperBound",
+                    "uomLabel",
+                    "resolution"
+                ],
+                "additionalProperties": false
+            },
+            "envelopeAxis": {
+                "title": "Envelope axes",
+                "description": "The axes (lon, lat, [realization,] t) in the envelope",
+                "type": "object",
+                "properties": {
+                    "lon": {
+                        "$ref": "#/components/schemas/latLonRange"
+                    },
+                    "lat": {
+                        "$ref": "#/components/schemas/latLonRange"
+                    },
+                    "realization": {
+                        "$ref": "#/components/schemas/realizationRange"
+                    },
+                    "t": {
+                        "$ref": "#/components/schemas/timeRange"
+                    }
+                },
+                "required": [
+                    "lon",
+                    "lat",
+                    "t"
+                ],
+                "additionalProperties": false
+            },
+            "fullRegularDomainAxes": {
+                "title": "DomainSet axes",
+                "description": "The axes (lon/x, lat/y, [realization,] t) in the domainSet",
+                "type": "object",
+                "properties": {
+                    "lon": {
+                        "$ref": "#/components/schemas/latLonRangeAndStep"
+                    },
+                    "lat": {
+                        "$ref": "#/components/schemas/latLonRangeAndStep"
+                    },
+                    "realization": {
+                        "$ref": "#/components/schemas/realizationRange"
+                    },
+                    "t": {
+                        "$ref": "#/components/schemas/timeRangeAndStep"
+                    }
+                },
+                "required": [
+                    "lon",
+                    "lat",
+                    "t"
+                ],
+                "additionalProperties": false
+            },
+            "timeRealizationDomainAxes": {
+                "title": "DomainSet axes, time and realization only (used in displaced coverage)",
+                "description": "The axes (lon/x, lat/y, [realization,] t) in the domainSet",
+                "type": "object",
+                "properties": {
+                    "realization": {
+                        "$ref": "#/components/schemas/realizationRange"
+                    },
+                    "t": {
+                        "$ref": "#/components/schemas/timeRangeAndStep"
+                    }
+                },
+                "required": [
+                    "t"
+                ],
+                "additionalProperties": false
+            },
+            "displacedDomainAxes": {
+                "title": "DomainSet axes for displaced (i.e. curvilinear grid)",
+                "description": "The names and units of the curvilinear axes in a displaced grid",
+                "type": "object",
+                "properties": {
+                    "axisLabels": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 3,
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "uomLabels": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 3,
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "required": [
+                    "axisLabels",
+                    "uomLabels"
+                ],
+                "additionalProperties": false
+            },
+            "envelope": {
+                "title": "envelope",
+                "description": "The envelope around a coverage is defined by the lower and upper bound of each axis, respectively.",
+                "type": "object",
+                "properties": {
+                    "srsName": {
+                        "type": "string",
+                        "format": "uri"
+                    },
+                    "axis": {
+                        "$ref": "#/components/schemas/envelopeAxis"
+                    }
+                },
+                "required": [
+                    "srsName",
+                    "axis"
+                ]
+            },
+            "domainSet": {
+                "title": "domainSet",
+                "description": "The domainSet describes the *direct positions* of the coverage, i.e., the locations for which values are available.",
+                "type": "object",
+                "oneOf": [
+                    {
+                        "properties": {
+                            "srsName": {
+                                "type": "string",
+                                "format": "uri"
+                            },
+                            "axis": {
+                                "$ref": "#/components/schemas/fullRegularDomainAxes"
+                            }
+                        },
+                        "required": [
+                            "srsName",
+                            "axis"
+                        ]
+                    },
+                    {
+                        "properties": {
+                            "srsName": {
+                                "type": "string",
+                                "format": "uri"
+                            },
+                            "axis": {
+                                "$ref": "#/components/schemas/timeRealizationDomainAxes"
+                            },
+                            "displacement": {
+                                "$ref": "#/components/schemas/displacedDomainAxes"
+                            }
+                        },
+                        "required": [
+                            "srsName",
+                            "axis",
+                            "displacement"
+                        ]
+                    }
+                ]
+            },
+            "rangeSet": {
+                "title": "rangeSet",
+                "description": "The rangeSet specifies the end point where the actual data of the coverage can be found.",
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "enum": [
+                            "RangeSetRefType"
+                        ]
+                    },
+                    "dataReference": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "uri"
+                        }
+                    }
+                },
+                "required": [
+                    "type",
+                    "dataReference"
+                ]
+            },
+            "rangeType": {
+                "title": "rangeType",
+                "description": "The rangeType element describes the semantics of a coverage's rangeSet, i.e. which quantities are present in the coverage.",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/quantity"
+                }
+            },
+            "metadata": {
+                "title": "Metadata",
+                "description": "The metadata element is a container of any (not further specified) information which should be transported along with the coverage on hand, such as domain-specific metadata.",
+                "type": "object"
+            },
+            "quantitylist": {
+                "required": [
+                    "provider",
+                    "paging",
+                    "result"
+                ],
+                "type": "object",
+                "properties": {
+                    "provider": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/provider"
+                            }
+                        ],
+                        "description": "Information about the provider.",
+                        "nullable": true
+                    },
+                    "paging": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/paginglinks"
+                            }
+                        ]
+                    },
+                    "result": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/quantity"
+                        },
+                        "description": "Query results."
+                    }
+                },
+                "additionalProperties": false,
+                "description": "List of quantities that meet the query (i.e. the set of filter parameters)."
+            },
+            "quantity": {
+                "title": "quantity",
+                "description": "Quantity in a coverage, i.e. one of the variables for which data is present in the coverage.",
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "uom": {
+                        "title": "units of measure",
+                        "description": "units of measure",
+                        "type": "object",
+                        "properties": {
+                            "code": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "code"
+                        ]
+                    },
+                    "definitions": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "standard": {
+                                    "type": "string"
+                                },
+                                "code": {
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "type": "string"
+                                },
+                                "reference": {
+                                    "type": "string",
+                                    "format": "uri"
+                                }
+                            },
+                            "required": [
+                                "standard",
+                                "code"
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "parameters": {
+            "pageSize": {
+                "name": "pageSize",
+                "in": "query",
+                "description": "Requested number of items in the response.",
+                "required": false,
+                "style": "form",
+                "explode": false,
+                "schema": {
+                    "maximum": 10000,
+                    "minimum": 1,
+                    "type": "integer",
+                    "default": 10
+                }
+            },
+            "page": {
+                "name": "page",
+                "in": "query",
+                "description": "Requested sub page of the total list of items",
+                "required": false,
+                "style": "form",
+                "explode": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "coverageId": {
+                "name": "coverageId",
+                "in": "path",
+                "description": "Identifier (name) of a specific coverage",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "boundingBox": {
+                "name": "boundingBox",
+                "in": "query",
+                "description": "Only select coverages that have a geometry that intersects the bounding box.",
+                "required": false,
+                "style": "form",
+                "explode": false,
+                "schema": {
+                    "maxItems": 6,
+                    "minItems": 4,
+                    "type": "array",
+                    "items": {
+                        "type": "number"
+                    }
+                }
+            },
+            "startTime": {
+                "name": "startTime",
+                "in": "query",
+                "description": "Select only the coverages of which the time axis include time stamps equal to or later than _startTime_.",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "description": "Date-time string that adheres to RFC 3339. Examples \"2018-02-12T23:20:50Z\"",
+                    "format": "date-time"
+                }
+            },
+            "endTime": {
+                "name": "endTime",
+                "in": "query",
+                "description": "Select only the coverages of which the time axis include time stamps equal to or before _startTime_.",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "description": "Date-time string that adheres to RFC 3339. Examples \"2018-02-12T23:20:50Z\"",
+                    "format": "date-time"
+                }
+            },
+            "quantityIds": {
+                "name": "quantityIds",
+                "in": "query",
+                "description": "Get a subset of the quantities in the coverage (quantity identifiers separated by ';')",
+                "required": false,
+                "style": "form",
+                "explode": true,
+                "schema": {
+                    "type": "string",
+                    "pattern": "aaaa or aaaa;bbbb;cccc;..."
+                }
+            },
+            "quantityNames": {
+                "name": "quantityNames",
+                "in": "query",
+                "description": "Get a subset of the quantities in the coverage (quantity names separated by ';')",
+                "required": false,
+                "style": "form",
+                "explode": true,
+                "schema": {
+                    "type": "string",
+                    "pattern": "aaaa or aaaa;bbbb;cccc;..."
+                }
+            },
+            "outputCrs": {
+                "name": "outputCrs",
+                "in": "query",
+                "description": "reproject the output coverage to the given _outputCRS_ (coordinate reference system)",
+                "required": false,
+                "style": "form",
+                "explode": true,
+                "schema": {
+                    "type": "string"
+                }
+            }
+        }
+    }
 }

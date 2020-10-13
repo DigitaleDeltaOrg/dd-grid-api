@@ -1,56 +1,73 @@
-# Beschrijvin DD-GRID-API (versie 0.9)
+# Beschrijving DD-GRID-API versie 0.95
 
 ## Inleiding
 
-Deze pagina bevat de beschrijving van een voorstel voor Digitale Delta Roosterdata API. Deze Digitale Delta API voor grid data is afgeleid van de [OGC API Coverages](https://github.com/opengeospatial/ogc_api_coverages). Over de definitieve naam van de API wordt nog nagedacht; voorlopig wordt hij DD-GRID-API genoemd.
-De specificatie van de DD-GRID-API ([dd-grid-api-oas3.json](./dd-grid-api-oas3.json)) is opgesteld conform OAS3, m.a.w. de DD-GRID-API-specificatie valideert tegen het [OAS3-schema](https://github.com/OAI/OpenAPI-Specification/blob/master/schemas/v3.0/schema.json), dat voor de volledigheid ook hier bij de DD-GRID-API-specificatie is opgenomen ([oas3-schema.json](./oas3-schema.json)).
-De resource objects van de DD-GRID-API-specificatie zijn (nog) niet opgenomend in deze OAS3 specificatie. Vanuit deze specificatie wordt verwezen naar het schema voor de specificatie van de response [./voorstel/dd-grid-api-coverage-schema.json]. Van deze response zijn een tweetal [voorbeelden](./voorbeelden/voorbeelden.md) gegeven.
+Deze pagina bevat de beschrijving versie 0.95 (binnenkort om te zetten in versie 1.0) van de Digitale Delta API voor roosterdata (grid data).  
+Deze DD-GRID-API is afgeleid van de [OGC API Coverages](https://github.com/opengeospatial/ogc_api_coverages).
+De specificatie van de DD-GRID-API is opgesteld in OAS3 (OpenAPI Specification 3), en staat in ([dd-grid-api-oas3.json](./dd-grid-api-oas3.json)). De DD-GRID-API specificatie valideert dus tegen het [OAS3-schema](https://github.com/OAI/OpenAPI-Specification/blob/master/schemas/v3.0/schema.json).
 
-In eerste instantie was door de DD-werkgroep een eigen roosterdata-API uitgewerkt. De documentatie van deze eerste opzet is te vinden in [./oud/dd-grid-api-voorstel.md](./oud/dd-grid-api-voorstel.md).  
-Deze bleek qua naamgeving enorm af te wijken van de OGC-terminologie, maar bleek qua structuur zeer vergelijkbaar. Daarom is besloten om te onderzoeken of we met de OGC API Coverages uit de voeten zouden kunnen.  
-Voor de _resource objects_ in de response is dat zonder meer het geval, al hebben we wel het een en ander vereenvoudigd; zie bovengenoemde voorbeelden.  
-Ook qua _end points_ blijkt er veel overeenstemming te zijn, maar ook daarbij hebben we vereenvoudigingen toegepast.
+## Uitgangspunten
 
-## Vertrekpunten
-
-Onderstaande documentatie heeft als uitgangspunt gediend voor het opstellen van de DD-GRID-API:
+### OGC API Coverages
+Bij het opstellen van de DD-GRID-API is zoals gezet uitgegaan van de _OGC API Coverages_. Daarbij is de volgende documentatie gebruikt:
 * _OGC API Coverage_ specifatie voor de resource objects: https://github.com/opengeospatial/ogc_api_coverages/blob/master/standard/openapi/coverage-schema.json
 * _OGC API Coverage_ specifatie voor de urls van de end points: https://github.com/opengeospatial/ogc_api_coverages/blob/master/standard/openapi/openapi.json
 
-Omdat deze OGC specificatie nog in ontwikkeling is hebben we besloten om hem niet volledig te hanteren, maar om daar waar nuttig wijzingingen aan te brengen. Daarmee lopen we het risico dat we t.z.t. gaan afwijken van de definitieve OGC-specificatie, maar we schatten in dat de afwijkende specificatie-onderdelen relatief eenvoudig zijn om te zetten naar de dan geldende standard, of dat de afwijking goed te beargumenteren zijn en wel binnen het algemene stramien passsen.
-De wijzigingen die we hebben aangebracht laten zich samenvatten als:
-* Als een tussenniveau in de object-structuur altijd hetzelfde is en evident is, is dit tussenniveau verwijderd (geldt zowel voor de _response_ als voor de _end point_ paden).
-* Object-type benamingen zijn weggelaten, tenzij de aanduiding van het object-type daadwerkelijk van belang is, omdat er meerdere varianten van het object zijn.
-* In een aantal gevallen, met name bij de assen van de _envelope_ en de _domainset_ is in plaats van een lijst een dictionary gebruikt.
-Deze aangebrachte wijzingingen zullen hier binnenkort in meer detail worden beschreven.
+Bij de uitwerking constateerden we dat op sommige onderdelen de OGC-opzet slecht past bij wat we functioneel nodig hebben. En aangezien de OGC-specificatie nog in ontwikkeling is hebben we besloten om in die gevallen niet &#233;&#233;n op &#233;&#233;n de OGC-specificatie te hanteren, maar daarin wijzingingen aan te brengen.  
+Daarmee lopen we het risico dat we t.z.t. gaan afwijken van de definitieve OGC-specificatie, maar we schatten in dat de afwijkende specificatie-onderdelen relatief eenvoudig zijn om te zetten naar de dan geldende standard, of dat de afwijkingen goed te beargumenteren zijn.
 
-## Conceptversie DD-OGC-GRID-API end points
+De wijzigingen die we hebben aangebracht laten zich als volgt samenvatten:
+* Als een tussenniveau in de object-structuur altijd hetzelfde is en daarom evident is, is dit tussenniveau verwijderd (geldt zowel voor de _response_ als voor de _end point_ paden).
+* Object-type benamingen die maar &#233;&#233;n mogelijke waarde voor die benaming hebben zijn weggelaten.
+* In een aantal gevallen, met name bij de assen van de _envelope_ en de _domainset_ is in plaats van een lijst een dictionary gebruikt.
+Deze aangebrachte wijzingingen zullen hier binnenkort in meer detail worden beschreven (in het Engels, zodat ze met de OGC gecommuniceerd kunnen worden).
+
+### Functionele eisen en randvoorwaarden.
+
+Als voorbereiding op het opstellen van de specificatie is de gewenste functionaliteit in kaart gebracht, hetgeen leidde tot een set van functionele eisen (wat moet de DD-GRID-API kunnen?) en aantal randvoorwaarden waaraan de resulterende DD-GRID-API-specificatie moet voldoen, b.v.:
+- Het waar mogelijk volgen van de [URI/API-strategie van de DSO](https://aandeslagmetdeomgevingswet.nl/digitaal-stelsel/aansluiten/standaarden/api-en-uri-strategie/) en de daarvan afgeleide [API Design Rules (Nederlandse API Strategie IIa)](https://docs.geostandaarden.nl/api/API-Strategie/#api-designrules-nederlandse-api-strategie-iia).
+- Het qua structuur en syntax zo weinig mogelijk afwijken van die bij de [DD-API](https://digitaledeltaorg.github.io/dd.v201.html).
+
+Binnenkort verschijnt hier een uitgebreidere beschrijving van de randvoorwaarden en met name de daaruit voortgekomen keuzes.
+
+## Overzicht van de DD-GRID-API end points
+
+Onderstaande tabel bevat een compacte beschrijving van de end points en de bijbehorende filter parameters.  
+Zie [dd-grid-api-oas3.json](./dd-grid-api-oas3.json) voor de volledige specificatie in OAS3.  
+Zie _(volgt zeer binnenkort)_ voor de uit de OAS3-specificatie gegenereerde documentatie.
 
 | **End point** | **parameters** | **omschrijving** |
 | --- | --- | --- |
-| **/dataformats** | | Ondersteunde data formats. Minimaal "netcdf-cf" |
-| **/outputCrss** | | Welke projecties ondersteunt het systeem?<br>Response: lijst van projecties waar bij het opvragen van data naar toe kan worden getransformeerd |
-| **/quantities** | | Welke quantities kent de provider?<br>Response: lijst met quantity objecten |
-| | _pageSize_ | Gewenst aantal #items in de response. (Conform 'pageable' mechanisme in de DD-API.) |
-| | _page_ | Gewenste subpagina. (Conform 'pageable' mechanisme in de DD-API.) |
-| | _boundingBox_ | Gebied van interesse |
-| | _time_ | Periode van interesse |
-| **/coverages** | | Welke coverages kent de provider?<br>Response: lijst met metadata-objecten van de coverages (kan mengeling van rasters en curvilineair zijn) |
-| | _pageSize_ | Gewenst aantal #items in de response. Conform 'pageable' mechanisme in de DD-API. |
-| | _page_ | Gewenste subpagina. (Conform 'pageable' mechanisme in de DD-API.) |
-| | _boundingBox_ | Gebied van interesse |
-| | _time_ | Periode van interesse |
-| | _quantityId_ | Geef alleen coverages die data voor de _quantity_ met id _quantityId_ bevatten |
-| | _quantityName_ | Geef alleen coverages die data voor de _quantity_ met name  _quantityName_ bevatten |
-| | _analysisTime_ | Productietijdstip van de data set |
-| **/coverages/{coverageId}** | | Alle informatie over een coverage, behalve de data |
-| **/coverages/{coverageId}/data** | | Vraag data op van de coverage|
-| | _boundingBox_ | Rechthoekig deelgebied uit de domainset |
-| | _areaOfInterest_ | WKT-string die het gewenste (willekeurige) deelgebied beschrijft |
-| | _outputCrs_ | Gewenste projectie. (Tevens projectie van de areaOfInterest.) |
-| | _quantityId[]_ | Geef alleen data voor een of meer quantities, gespecificeerd d.m.v. id(s) |
-| | _quantityName[]_ | Geef alleen data voor een of meer quantities, gespecificeerd d.m.v. name(s) |
-| | _startTime_ | Data vanaf (inclusief) |
-| | _endTime_ | Data tot en met (inclusief) |
-| | _realization_ | Realization index, in geval van resultaten van een ensemble run |
-| | _point[]_ | X,Y-punt(en) Response is dan een json file met een lijst van tijdseries conform de response van de DD-API. (De lijst is 1 lang als er om 1 punt is gevraagd |
+| **/dataformats** | | Welke data formats worden door de provider ondersteund?<br>Response: lijst van file formaten waar de grid data kan worden geleverd; minimaal "netcdf-cf". |
+| **/outputCrss** | | Welke projecties ondersteunt het systeem?<br>Response: lijst van projecties waar de opgevraagde data naartoe kan worden getransformeerd. |
+| **/quantities** | | Welke quantities (grootheden kent de provider?<br>Response: lijst met 'rangeType' objecten, die de binnen het systeem bekende grootheden beschrijven |
+| | _pageSize_ | Gewenst aantal items in de response. |
+| | _page_ | Gewenste subpagina van de totale lijst met items. |
+| | _boundingBox_ | Retourneer alleen de quantities waarvoor grid data aanwezig is binnen het bounding box gebied. |
+| | _startTime_ | Retourneer alleen de quantities waarvoor grid data aanwezig is vanaf het opgegeven start-tijdstip. |
+| | _endTime_ | Retourneer alleen de quantities waarvoor grid data aanwezig tot en met het opgegeven eind-tijdstip. |
+| **/coverages** | | Welke coverages (grid data) kent de provider?<br>Response: lijst met de beschrijving van de aanwezige coverages, zonder de daadwerkelijke data. Dit kan een mengeling van rasters en curvilineaire grids zijn. |
+| | _pageSize_ | Gewenst aantal items in de response. |
+| | _page_ | Gewenste subpagina van de totale lijst met items. |
+| | _boundingBox_ | Retourneer alleen de coverages die geheel of gedeeltelijk binnen het bounding box gebied vallen. |
+| | _startTime_ | Retourneer alleen de coverages met data vanaf het opgegeven start-tijdstip. |
+| | _endTime_ | Retourneer alleen de coverages met data tot en met het opgegeven eind-tijdstip. |
+| | _quantityId_ | Retourneer alleen de coverages die data voor de grootheid met id _quantityId_ bevatten. |
+| | _quantityName_ | Retourneer alleen de coverages die data voor de grootheid met name  _quantityName_ bevatten. |
+| | _analysisTime_ |  Retourneer alleen de coverages die geproduceerd zijn (d.w.z. door een model berekend zijn) op het genoemde tijdstip. |
+| **/coverages/{coverageId}** | | Volledige beschrijving van de coverage met id _coverageId_, zonder de daadwerkelijke data. |
+| **/coverages/{coverageId}/data** | | Vraag de data op van de coverage met id _coverageId_. |
+| | _boundingBox_ |  Lever alleen de data die binnen het rechthoekige deelgebied valt. Bij het opvragen van _boundingBox_De boundingbox |
+| | _areaOfInterest_ | Lever alleen data die het gewenste deelgebied valt dat beschreven wodt door de WKT-string, uitgedrukt  |
+| | _outputCrs_ | Gewenste projectie van de geleverde data. Dit is tevensd de projectie van de _boundingBox_ of _areaOfInterest_. |
+| | _quantityId[]_ | Lever alleen data voor een of meer quantities, gespecificeerd door _quantityId[]_. (Meerdere quantities worden opgegeven door een puntkomma-gescheiden string.) |
+| | _quantityName[]_ | Lever alleen data voor een of meer quantities, gespecificeerd door _quantityName[]_. (Meerdere quantities worden opgegeven door een puntkomma-gescheiden string.) |
+| | _startTime_ | Lever alleen de data vanaf het opgegeven start-tijdstip. |
+| | _endTime_ | Lever alleen de data tot en met het opgegeven eind-tijdstip. |
+| | _realization_ | Lever, als de coverage het resultaat is van een ensemble run, het resultaat van het ensemble member met als index _realization_. |
+| | _point[]_ | Lever tijdseries op een of meer X,Y-punt(en) in het grid. (Meerdere punten worden opgegeven door een puntkomma-gescheiden string: 1203.6,142.0;1424.3,171.2;...)<br>Response: een json file met een lijst van tijdseries, conform de response van het _/timeseries_ end point van de @@@TODO: DD-API.<br>De lijst is &#233;&#233;n lang als er om &#233;&#233;n punt is gevraagd.<br>Als de coverage het resultaat is van een ensemble run, moet ook de _realization_ parameter worden meegegeven. |
+
+## Voorbeelden van de response
+
+Zie [voorbeelden](../voorbeelden/voorbeelden.md) voor een aantal voorbeelden van de response.
+

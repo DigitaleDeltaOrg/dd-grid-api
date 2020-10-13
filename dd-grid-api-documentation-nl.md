@@ -69,5 +69,5 @@ Zie _(volgt zeer binnenkort)_ voor de uit de OAS3-specificatie gegenereerde docu
 
 ## Voorbeelden van de response
 
-Zie [voorbeelden](../voorbeelden/voorbeelden.md) voor een aantal voorbeelden van de response.
+Zie [voorbeelden](./voorbeelden/voorbeelden.md) voor een aantal voorbeelden van de response.
 

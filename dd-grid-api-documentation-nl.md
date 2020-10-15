@@ -34,7 +34,7 @@ Binnenkort verschijnt hier een uitgebreidere beschrijving van de randvoorwaarden
 
 Onderstaande tabel bevat een compacte beschrijving van de end points en de bijbehorende filter parameters.  
 Zie [dd-grid-api-oas3.json](./dd-grid-api-oas3.json) voor de volledige specificatie in OAS3.  
-Zie _(volgt zeer binnenkort)_ voor de uit de OAS3-specificatie gegenereerde documentatie.
+Zie [dd-grid-api-docu-from-oas3.html](https://raw.githubusercontent.com/DigitaleDeltaOrg/dd-grid-api/master/dd-grid-api-docu-from-oas3.html) voor de uit deze OAS3-specificatie gegenereerde documentatie.
 
 | **End point** | **parameters** | **omschrijving** |
 | --- | --- | --- |

@@ -15,6 +15,6 @@ Deze werkgroep bestaat al een aantal jaren, en opereert sinds 2020 onder de vlag
 De volgende documentatie en informatie over de DD-GRID-API beschikbaar:
 - Een (Nederlandstalige) beschrijving op hoofdlijnen van de opzet en de end points: [dd-grid-api-documentation-nl.md](./dd-grid-api-documentation-nl.md) voor een  beschrijving van de de DD-GRID-API.<br>
 - De specificatie in OAS3: [voorstel/dd-grid-api-oas3.json](./dd-grid-api-oas3.json).
-- De uit de OAS3-specificatie gegenereerde documentatie: (volgt zeer binnenkort).
+- De uit de OAS3-specificatie gegenereerde documentatie: [dd-grid-api-docu-from-oas3.html](https://raw.githubusercontent.com/DigitaleDeltaOrg/dd-grid-api/master/dd-grid-api-docu-from-oas3.html).
 - Enkele voorbeelden van de response: [voorbeelden/voorbeelden.md](./voorbeelden/voorbeelden.md).
 

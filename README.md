@@ -15,5 +15,6 @@ Deze werkgroep bestaat al een aantal jaren, en werkt sinds 2019 nauw samen met h
 De volgende documentatie en informatie over de DD-GRID-API beschikbaar:
 - Een (Nederlandstalige) beschrijving op hoofdlijnen van de opzet en de end points: [dd-grid-api-documentation-nl.md](./dd-grid-api-documentation-nl.md).
 - De specificatie in OAS3: [dd-grid-api-oas3.json](./dd-grid-api-oas3.json).
-- De uit de OAS3-specificatie gegenereerde documentatie (volgt zeer binnenkort)
+- De m.b.v. RapiDoc uit de OAS3-specificatie [gegenereerde documentatie](https://digitaledeltaorg.github.io/dd-grid-api/dd-grid-api-generated-docu.html).<br>
+(De 'Try' buttons in die gegenereerde pagina werken vanzelfsprekend niet, omdat de DD-GRID-API een specificatie is en er dus geen daadwerkelijke service draait.)
 - Enkele voorbeelden van de response: [voorbeelden/voorbeelden.md](./voorbeelden/voorbeelden.md).

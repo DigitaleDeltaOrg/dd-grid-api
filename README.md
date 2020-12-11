@@ -8,13 +8,13 @@ Zie [www.digitaledelta.org/dd.v201.html](http://www.digitaledelta.org/dd.v201.ht
 De DD-GRID-API is een vervolg op dit traject, en richt zich op het zoeken, vinden en opvragen van roosterdata: statische en/of tijdafhankelijke data op een raster en/of een curvilineair grid.
 
 Zowel de DD-API als de DD-GRID-API zijn ontwikkeld door de Digitale Delta Werkgroep, een samenwerking van een tiental bedrijven en instanties die allemaal betrokken zijn bij het waterbeheer in Nederland (lijst volgt).
-Deze werkgroep bestaat al een aantal jaren, en opereert sinds 2020 onder de vlag van het [InformatieHuis Water](https://www.ihw.nl/), dat het beheer van de API's [vanaf 2021  zal overnemen](https://www.ihw.nl/verkenning-naar-beheer-digitale-delta-api/).
+Deze werkgroep bestaat al een aantal jaren, en werkt sinds 2019 nauw samen met het [InformatieHuis Water](https://www.ihw.nl/), dat momenteel werkt aan het [overnemen van het beheer van de API's](https://www.ihw.nl/verkenning-naar-beheer-digitale-delta-api/).
 
 ## Documentatie DD-GRID-API
 
 De volgende documentatie en informatie over de DD-GRID-API beschikbaar:
-- Een (Nederlandstalige) beschrijving op hoofdlijnen van de opzet en de end points: [dd-grid-api-documentation-nl.md](./dd-grid-api-documentation-nl.md) voor een  beschrijving van de de DD-GRID-API.<br>
-- De specificatie in OAS3: [voorstel/dd-grid-api-oas3.json](./dd-grid-api-oas3.json).
-- De uit de OAS3-specificatie gegenereerde documentatie: (volgt zeer binnenkort).
+- Een (Nederlandstalige) beschrijving op hoofdlijnen van de opzet en de end points: [dd-grid-api-documentation-nl.md](./dd-grid-api-documentation-nl.md).
+- De specificatie in OAS3: [dd-grid-api-oas3.json](./dd-grid-api-oas3.json).
+- De uit de OAS3-specificatie <a href="https://raw.githubusercontent.com/DigitaleDeltaOrg/dd-grid-api/master/dd-grid-api-generated-docu.html" target="_blank">gegenereerde documentatie</a>.<br>
+  (Deze documentatie is gegenereerd m.b.v. RapiDoc. De 'Try' buttons werken vanzelfsprekend niet, omdat de DD-GRID-API een specificatie is en er dus geen daadwerkelijke service draait.) 
 - Enkele voorbeelden van de response: [voorbeelden/voorbeelden.md](./voorbeelden/voorbeelden.md).
-

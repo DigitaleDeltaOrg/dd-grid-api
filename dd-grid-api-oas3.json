@@ -111,26 +111,10 @@
                         "$ref": "#/components/parameters/endTime"
                     },
                     {
-                        "name": "quantityId",
-                        "in": "query",
-                        "description": "Only return the coverages that contain data for the quantity with id \"quantityId\"",
-                        "required": false,
-                        "style": "form",
-                        "explode": false,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "$ref": "#/components/parameters/quantityId"
                     },
                     {
-                        "name": "quantityName",
-                        "in": "query",
-                        "description": "Only return the coverages that contain data for the quantity with name \"quantityName\"",
-                        "required": false,
-                        "style": "form",
-                        "explode": false,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "$ref": "#/components/parameters/quantityName"
                     },
                     {
                         "name": "analysisTime",
@@ -230,23 +214,13 @@
                         "$ref": "#/components/parameters/boundingBox"
                     },
                     {
-                        "$ref": "#/components/parameters/quantityIds"
+                        "$ref": "#/components/parameters/quantityId"
                     },
                     {
-                        "$ref": "#/components/parameters/quantityNames"
+                        "$ref": "#/components/parameters/quantityName"
                     },
                     {
-                        "$ref": "#/components/parameters/outputCrs"
-                    },
-                    {
-                        "name": "areaOfInterest",
-                        "in": "query",
-                        "description": "WKT (Well Known Text) string that specifies the polygon where data is requested.\n",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "WKT"
-                        }
+                        "$ref": "#/components/parameters/projection"
                     },
                     {
                         "$ref": "#/components/parameters/startTime"
@@ -255,23 +229,7 @@
                         "$ref": "#/components/parameters/endTime"
                     },
                     {
-                        "name": "realization",
-                        "in": "query",
-                        "description": "Select a specific realization (in case of an ensemble run).\n",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "point",
-                        "in": "query",
-                        "description": "Select one or more points for which to return a time series according to DD-API json format.\n",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "pattern": "[X,Y] or [X,Y];[X,Y];[X,Y];..."
-                        }
+                        "$ref": "#/components/parameters/realization"
                     }
                 ],
                 "responses": {
@@ -280,7 +238,8 @@
                         "content": {
                             "application/octet-stream": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/exception"
+                                    "type": "string",
+                                    "format": "binary"
                                 }
                             }
                         }
@@ -290,8 +249,85 @@
                         "content": {
                             "application/json": {
                                 "schema": {
+                                    "$ref": "#/components/schemas/exception"
+                                }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/coverages/{coverageId}/data-point": {
+            "get": {
+                "tags": [
+                    "Coverage end points"
+                ],
+                "summary": "Get time series values for points in the coverage.",
+                "description": "For one or more points inside the coverages domain set, retrieve the data for one or more quantities as one or more time series.",
+                "operationId": "getCoveragePointData",
+                "parameters": [
+                    {
+                        "name": "x",
+                        "in": "query",
+                        "description": "X-coordinate(s) of the requested point(s), separated by a comma. The number of x-coordinates must be equal to the nummer of y-coordinates in the _y_ query parameter\n",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "pattern": "x1[,x2[,x3[,...]]]"
+                        }
+                    },
+                    {
+                        "name": "y",
+                        "in": "query",
+                        "description": "Y-coordinate(s) of the requested point(s), separated by a comma. The number of y-coordinates must be equal to the nummer of x-coordinates in the _x_ query parameter\n",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "pattern": "y1[,y2[,y3[,...]]]"
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/coverageId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/quantityId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/quantityName"
+                    },
+                    {
+                        "$ref": "#/components/parameters/startTime"
+                    },
+                    {
+                        "$ref": "#/components/parameters/endTime"
+                    },
+                    {
+                        "$ref": "#/components/parameters/realization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The list with requested time series. A json string with content according to the reponse of the _/timeseries_ end point of the DD-API",
+                        "content": {
+                            "application/json": {
+                                "schema": {
                                     "type": "string",
-                                    "format": "binary"
+                                    "format": "According to DD-API's time series response."
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An error occured.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/exception"
                                 }
                             },
                             "text/html": {
@@ -346,18 +382,18 @@
                 }
             }
         },
-        "/outputCrss": {
+        "/projections": {
             "get": {
                 "tags": [
                     "Coverage end points"
                 ],
-                "summary": "The list of the supported output CRS's",
-                "description": "Returns the list of projections to which the requested data can be transformed.",
-                "operationId": "getOutputCoordRefSystems",
+                "summary": "Supported output projections (EPSG codes)",
+                "description": "Returns the list of projections, presented as a list of EPSG codes, to which the requested data can be transformed.",
+                "operationId": "getProjections",
                 "parameters": [],
                 "responses": {
                     "200": {
-                        "description": "List of supported output coordinate reference systems / projections",
+                        "description": "List of supported output projections",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1128,8 +1164,8 @@
                     "format": "date-time"
                 }
             },
-            "quantityIds": {
-                "name": "quantityIds",
+            "quantityId": {
+                "name": "quantityId",
                 "in": "query",
                 "description": "Get a subset of the quantities in the coverage (quantity identifiers separated by ';')",
                 "required": false,
@@ -1137,11 +1173,11 @@
                 "explode": true,
                 "schema": {
                     "type": "string",
-                    "pattern": "aaaa or aaaa;bbbb;cccc;..."
+                    "pattern": "aaaa[,bbbb[,cccc[,...]]]"
                 }
             },
-            "quantityNames": {
-                "name": "quantityNames",
+            "quantityName": {
+                "name": "quantityName",
                 "in": "query",
                 "description": "Get a subset of the quantities in the coverage (quantity names separated by ';')",
                 "required": false,
@@ -1149,18 +1185,28 @@
                 "explode": true,
                 "schema": {
                     "type": "string",
-                    "pattern": "aaaa or aaaa;bbbb;cccc;..."
+                    "pattern": "aaaa[,bbbb[,cccc[,...]]]"
                 }
             },
-            "outputCrs": {
-                "name": "outputCrs",
+            "realization": {
+                "name": "realization",
                 "in": "query",
-                "description": "reproject the output coverage to the given _outputCRS_ (coordinate reference system)",
+                "description": "Select a specific realization (in case of an ensemble run).\n",
+                "required": false,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "projection": {
+                "name": "projection",
+                "in": "query",
+                "description": "Reproject the output coverage to the given _projection_. If ommitted, epsg:4326 is assumed (wgs84)",
                 "required": false,
                 "style": "form",
                 "explode": true,
                 "schema": {
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "epsg:nnnn"
                 }
             }
         }

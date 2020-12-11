@@ -38,34 +38,39 @@ Zie _(volgt zeer binnenkort)_ voor de uit de OAS3-specificatie gegenereerde docu
 
 | **End point** | **parameters** | **omschrijving** |
 | --- | --- | --- |
-| **/dataformats** | | Welke data formats worden door de provider ondersteund?<br>Response: lijst van file formaten waar de grid data kan worden geleverd; minimaal "netcdf-cf". |
-| **/outputCrss** | | Welke projecties ondersteunt het systeem?<br>Response: lijst van projecties waar de opgevraagde data naartoe kan worden getransformeerd. |
+| **/dataformats** | | Welke data formats worden door de provider ondersteund?<br>_Response_: lijst van file formaten waar de grid data kan worden geleverd; minimaal "netcdf-cf". |
+| **/projection** | | Welke projecties ondersteunt het systeem?<br>_Response_: lijst van projecties (EPSG-codes) waar de opgevraagde data naartoe kan worden getransformeerd. |
 | **/quantities** | | Welke quantities (grootheden kent de provider?<br>Response: lijst met 'rangeType' objecten, die de binnen het systeem bekende grootheden beschrijven |
 | | _pageSize_ | Gewenst aantal items in de response. |
 | | _page_ | Gewenste subpagina van de totale lijst met items. |
-| | _boundingBox_ | Retourneer alleen de quantities waarvoor grid data aanwezig is binnen het bounding box gebied. |
+| | _boundingBox_ | Retourneer alleen de quantities waarvoor grid data aanwezig is binnen het bounding box gebied. De bounding box is uitgedrukt in wgs84 (EPSG:4326) |
 | | _startTime_ | Retourneer alleen de quantities waarvoor grid data aanwezig is vanaf het opgegeven start-tijdstip. |
 | | _endTime_ | Retourneer alleen de quantities waarvoor grid data aanwezig tot en met het opgegeven eind-tijdstip. |
-| **/coverages** | | Welke coverages (grid data) kent de provider?<br>Response: lijst met de beschrijving van de aanwezige coverages, zonder de daadwerkelijke data. Dit kan een mengeling van rasters en curvilineaire grids zijn. |
+| **/coverages** | | Welke coverages (grid data) kent de provider?<br>_Response_: lijst met de beschrijving van de aanwezige coverages, zonder de daadwerkelijke data. Dit kan een mengeling van rasters en curvilineaire grids zijn. |
 | | _pageSize_ | Gewenst aantal items in de response. |
 | | _page_ | Gewenste subpagina van de totale lijst met items. |
-| | _boundingBox_ | Retourneer alleen de coverages die geheel of gedeeltelijk binnen het bounding box gebied vallen. |
+| | _boundingBox_ | Retourneer alleen de coverages die geheel of gedeeltelijk binnen het bounding box gebied vallen. De bounding box is uitgedrukt in wgs84 (EPSG:4326) |
 | | _startTime_ | Retourneer alleen de coverages met data vanaf het opgegeven start-tijdstip. |
 | | _endTime_ | Retourneer alleen de coverages met data tot en met het opgegeven eind-tijdstip. |
 | | _quantityId_ | Retourneer alleen de coverages die data voor de grootheid met id _quantityId_ bevatten. |
 | | _quantityName_ | Retourneer alleen de coverages die data voor de grootheid met name  _quantityName_ bevatten. |
 | | _analysisTime_ |  Retourneer alleen de coverages die geproduceerd zijn (d.w.z. door een model berekend zijn) op het genoemde tijdstip. |
-| **/coverages/{coverageId}** | | Volledige beschrijving van de coverage met id _coverageId_, zonder de daadwerkelijke data. |
-| **/coverages/{coverageId}/data** | | Vraag de data op van de coverage met id _coverageId_. |
-| | _boundingBox_ |  Lever alleen de data die binnen het rechthoekige deelgebied valt. Bij het opvragen van _boundingBox_De boundingbox |
-| | _areaOfInterest_ | Lever alleen data die het gewenste deelgebied valt dat beschreven wodt door de WKT-string, uitgedrukt  |
-| | _outputCrs_ | Gewenste projectie van de geleverde data. Dit is tevensd de projectie van de _boundingBox_ of _areaOfInterest_. |
-| | _quantityId[]_ | Lever alleen data voor een of meer quantities, gespecificeerd door _quantityId[]_. (Meerdere quantities worden opgegeven door een puntkomma-gescheiden string.) |
-| | _quantityName[]_ | Lever alleen data voor een of meer quantities, gespecificeerd door _quantityName[]_. (Meerdere quantities worden opgegeven door een puntkomma-gescheiden string.) |
+| **/coverages/{coverageId}** | | _Response_: Volledige beschrijving van de coverage met id _coverageId_, zonder de daadwerkelijke data. |
+| **/coverages/{coverageId}/data** | | Vraag de data op van de coverage met id _coverageId_.<br>_Response_: Een netcdf-file met daarin van een of meer variabelen de tijdhankelijke waarden op het hele rooster. |
+| | _boundingBox_ |  Lever alleen de data die binnen het rechthoekige deelgebied valt (zie volgende regel voor de projectie van de _boundingBox_)  |
+| | _projection_ | Projectie waarin de gevraagde data moet worden geleverd. Dit is tevens de projectie van de _boundingBox_. |
+| | _quantityId[]_ | Lever alleen data voor een of meer quantities, gespecificeerd door _quantityId[]_. Meerdere quantities worden opgegeven door een komma-gescheiden string. Bij weglating van deze parameter worden alle quantities in de coverage geleverd. |
+| | _quantityName[]_ | Lever alleen data voor een of meer quantities, gespecificeerd door _quantityName[]_. Meerdere quantities worden opgegeven door een komma-gescheiden string. Bij weglating van deze parameter worden alle quantities in de coverage geleverd. |
 | | _startTime_ | Lever alleen de data vanaf het opgegeven start-tijdstip. |
 | | _endTime_ | Lever alleen de data tot en met het opgegeven eind-tijdstip. |
-| | _realization_ | Lever, als de coverage het resultaat is van een ensemble run, het resultaat van het ensemble member met als index _realization_. |
-| | _point[]_ | Lever tijdseries op een of meer X,Y-punt(en) in het grid. (Meerdere punten worden opgegeven door een puntkomma-gescheiden string: 1203.6,142.0;1424.3,171.2;...)<br>Response: een json file met een lijst van tijdseries, conform de response van het _/timeseries_ end point van de @@@TODO: DD-API.<br>De lijst is &#233;&#233;n lang als er om &#233;&#233;n punt is gevraagd.<br>Als de coverage het resultaat is van een ensemble run, moet ook de _realization_ parameter worden meegegeven. |
+| | _realization_ | Lever, als de coverage het resultaat is van een ensemble run, het resultaat van het ensemble member met als index _realization_. Bij weglating worden de resutaten van alle ensemble members teruggegeven (de ensemble member index vormt dan een extra dimensie in de netcdf-file) |
+**/coverages/{coverageId}/point-data** | | Vraag tijdseries op van een of meer grootheden op een of meer punten in de coverage met id _coverageId_.<br>Response: een json string met een lijst van tijdseries, conform de response van het _/timeseries_ end point van de [DD-API](https://digitaledeltaorg.github.io/dd.v201.html). De lijst is &#233;&#233;n lang als er om &#233;&#233;n punt is gevraagd. |
+| | _x[]_ en _y_[] | Lever tijdseries op een of meer X,Y-punt(en) in het grid. (Meerdere punten worden opgegeven door in zowel de _x_ als de _y_ parameter meerdere waarden op te geven, gescheiden door een komma.) |
+| | _quantityId[]_ | Lever alleen data voor een of meer quantities, gespecificeerd door _quantityId[]_. Meerdere quantities worden opgegeven door een komma-gescheiden string. Bij weglating van deze parameter worden alle quantities in de coverage geleverd. |
+| | _quantityName[]_ | Lever alleen data voor een of meer quantities, gespecificeerd door _quantityName[]_. Meerdere quantities worden opgegeven door een komma-gescheiden string. Bij weglating van deze parameter worden alle quantities in de coverage geleverd. |
+| | _startTime_ | Lever alleen de data vanaf het opgegeven start-tijdstip. |
+| | _endTime_ | Lever alleen de data tot en met het opgegeven eind-tijdstip. |
+| | _realization_ | Lever, als de coverage het resultaat is van een ensemble run, het resultaat van het ensemble member met als index _realization_. Bij weglating worden de resutaten van alle ensemble members teruggegeven. |
 
 ## Voorbeelden van de response
 

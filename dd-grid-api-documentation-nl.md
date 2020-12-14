@@ -58,8 +58,7 @@ Daarnaast bevat de  volgende paragraaf een tabel mete een compacte beschrijving 
 | | _endTime_ | Retourneer alleen de coverages met data tot en met het opgegeven eind-tijdstip. |
 | | _quantityId_ | Retourneer alleen de coverages die data voor de grootheid met id _quantityId_ bevatten. |
 | | _quantityName_ | Retourneer alleen de coverages die data voor de grootheid met name  _quantityName_ bevatten. |
-| | _analysisTime_ |  Retourneer alleen de coverages die geproduceerd zijn (d.w.z. door een model berekend zijn) op het genoemde tijdstip. |
-| **/coverages/{coverageId}** | | _Response_: Volledige beschrijving van de coverage met id _coverageId_, zonder de daadwerkelijke data. |
+| | _filter_ | Filter op een of meer attributen van de coverage (zie 'Generiek filtering mechanisme' in de volgende paragraaf). Het filter is generiek kan in dit end point worden gebruikt om te selecteren op analysisTime. | **/coverages/{coverageId}** | | _Response_: Volledige beschrijving van de coverage met id _coverageId_, zonder de daadwerkelijke data. |
 | **/coverages/{coverageId}/data** | | Vraag de data op van de coverage met id _coverageId_.<br>_Response_: Een netcdf-file met daarin van een of meer variabelen de tijdhankelijke waarden op het hele rooster. |
 | | _boundingBox_ |  Lever alleen de data die binnen het rechthoekige deelgebied valt (zie volgende regel voor de projectie van de _boundingBox_)  |
 | | _projection_ | Projectie waarin de gevraagde data moet worden geleverd. Dit is tevens de projectie van de _boundingBox_. |

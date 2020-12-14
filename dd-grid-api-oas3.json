@@ -158,14 +158,7 @@
                         }
                     },
                     {
-                        "name": "analysisTime",
-                        "in": "query",
-                        "description": "Only return the coverages that were produced (i.e. were calculated by a model) at the stated \"analysisTime\".",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date-time"
-                        }
+                        "$ref": "#/components/parameters/filter"
                     }
                 ],
                 "responses": {
@@ -1369,7 +1362,7 @@
             "filter": {
                 "name": "filter",
                 "in": "query",
-                "description": "Optional query parameter that offers additional filtering by means of a generic filter mechanism. Used for instance for selecting an ensemble member (i.e. _realization_) from an ensemble run ensemble run. See https://github.com/DigitaleDeltaOrg/dd-grid-api/blob/master/dd-grid-api-filtering.md for details.\n",
+                "description": "Optional query parameter that offers additional filtering by means of a generic filter mechanism. Used for instance for selecting coverages with a certain analysis time and for selecting data for an ensemble member (i.e. _realization_) from an ensemble run. See https://github.com/DigitaleDeltaOrg/dd-grid-api/blob/master/dd-grid-api-filtering.md for details.\n",
                 "required": false,
                 "schema": {
                     "type": "string",

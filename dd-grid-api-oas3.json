@@ -230,11 +230,14 @@
                     },
                     {
                         "$ref": "#/components/parameters/filter"
+                    },
+                    {
+                        "$ref": "#/components/parameters/format"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "(A subset of) The actual coverage data, returned as a netcdf-cdf file (see http://cfconventions.org/Data/cf-conventions/cf-conventions-1.8/cf-conventions.html)",
+                        "description": "(A subset of) The actual coverage data, returned as a netcdf-CF file (see http://cfconventions.org/Data/cf-conventions/cf-conventions-1.8/cf-conventions.html)",
                         "content": {
                             "application/octet-stream": {
                                 "schema": {
@@ -346,7 +349,7 @@
                     "Coverage end points"
                 ],
                 "summary": "Supported data file formats.",
-                "description": "Returns the list of data file formats in which the system can provide the grid data can be delivered. The list contains at least netcdf-cf",
+                "description": "Returns the list of data file formats in which the system can provide the grid data can be delivered. The list contains at least netcdf-CF",
                 "operationId": "getDataFormats",
                 "parameters": [],
                 "responses": {
@@ -644,6 +647,7 @@
             },
             "coverage": {
                 "required": [
+                    "envelope",
                     "domainSet",
                     "rangeSet",
                     "rangeType"
@@ -664,6 +668,9 @@
                     },
                     "rangeType": {
                         "$ref": "#/components/schemas/rangeType"
+                    },
+                    "dataFormats": {
+                        "$ref": "#/components/schemas/dataformats"
                     },
                     "metadata": {
                         "$ref": "#/components/schemas/metadata"
@@ -1037,6 +1044,15 @@
                     "$ref": "#/components/schemas/quantity"
                 }
             },
+            "dataformats": {
+                "title": "dataformats",
+                "description": "The list of formats in which the data on this coverage can be provided.",
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                    "type": "string"
+                }
+            },
             "metadata": {
                 "title": "Metadata",
                 "description": "The metadata element is a container of any (not further specified) information which should be transported along with the coverage on hand, such as domain-specific metadata.",
@@ -1231,6 +1247,16 @@
                 "schema": {
                     "type": "string",
                     "example": "realization:eq:16 or realization:eq:1,7,8,9,15 or realization:eq:min,max"
+                }
+            },
+            "format": {
+                "name": "format",
+                "in": "query",
+                "description": "Specify in which format the data should be returned. The list of additional available formats can be retrieved from the _/dataformats_ end point, and/or in the _dataFormats_ attribute of a coverage.\n",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "example": "netcdf-cf"
                 }
             },
             "projection": {

@@ -104,7 +104,7 @@
                     {
                         "name": "boundingbox",
                         "in": "query",
-                        "description": "Select only the coverages with a geometry that intersects with the _boundingbox_",
+                        "description": "Select only the coverages with a geometry that intersects with the _boundingbox_. The _boundingbox_ is expressed in wgs84 (EPSG:4326).",
                         "required": false,
                         "schema": {
                             "maxItems": 4,
@@ -254,7 +254,7 @@
                     {
                         "name": "boundingbox",
                         "in": "query",
-                        "description": "Select only grid values that are within the _boundingbox_. (For 3d coverages, the bounding box may contain a 3d dimension.)",
+                        "description": "Select only grid values that are within the _boundingbox_. (For 3d coverages, the bounding box may contain a 3d dimension.). The projection of the _boundingbox_ is the one specified in the _projection_ query parameter. If _projection_ is omitted the _boundingbox_ is expressed in wgs84 (EPSG:4326)",
                         "required": false,
                         "schema": {
                             "maxItems": 6,
@@ -565,7 +565,7 @@
                     {
                         "name": "boundingbox",
                         "in": "query",
-                        "description": "Select only the quantities that are present on coverages with a geometry that intersects with the _boundingbox_.",
+                        "description": "Select only the quantities that are present on coverages with a geometry that intersects with the _boundingbox_.  The_boundingbox_ is expressed in wgs84 (EPSG:4326).",
                         "required": false,
                         "schema": {
                             "maxItems": 4,

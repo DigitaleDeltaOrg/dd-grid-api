@@ -677,7 +677,7 @@
                     }
                 },
                 "additionalProperties": false,
-                "description": "Metadta."
+                "description": "Metadata of the coverage."
             },
             "latLonRange": {
                 "description": "Range and unit of the lon or the lat axis in the envelope",
@@ -849,8 +849,8 @@
                     "lat": {
                         "$ref": "#/components/schemas/latLonRange"
                     },
-                    "realization": { 
-                        "oneOf" : [
+                    "realization": {
+                        "oneOf": [
                             {
                                 "$ref": "#/components/schemas/realizationRange"
                             },
@@ -881,8 +881,8 @@
                     "lat": {
                         "$ref": "#/components/schemas/latLonRangeAndStep"
                     },
-                    "realization": { 
-                        "oneOf" : [
+                    "realization": {
+                        "oneOf": [
                             {
                                 "$ref": "#/components/schemas/realizationRange"
                             },
@@ -907,8 +907,8 @@
                 "description": "The axes (lon/x, lat/y, [realization,] t) in the domainSet",
                 "type": "object",
                 "properties": {
-                    "realization": { 
-                        "oneOf" : [
+                    "realization": {
+                        "oneOf": [
                             {
                                 "$ref": "#/components/schemas/realizationRange"
                             },
@@ -1054,9 +1054,14 @@
                 }
             },
             "metadata": {
-                "title": "Metadata",
-                "description": "The metadata element is a container of any (not further specified) information which should be transported along with the coverage on hand, such as domain-specific metadata.",
-                "type": "object"
+                "description": "Additional metadata on the coverage.",
+                "type": "object",
+                "properties": {
+                    "source": {
+                        "$ref": "#/components/schemas/source"
+                    }
+                },
+                "additionalProperties": true
             },
             "quantitylist": {
                 "required": [
@@ -1138,6 +1143,43 @@
                                 "code"
                             ]
                         }
+                    }
+                }
+            },
+            "source": {
+                "description": "Optionally describes the type of data in the coverage, the owner of the data, the way it was created, etc.",
+                "type": "object",
+                "properties": {
+                    "process": {
+                        "description": "Type of process that generated the coverage",
+                        "type": "string",
+                        "example": "satellite, radar, computation, ..."
+                    },
+                    "name": {
+                        "description": "The name of the source that generated the coverage, e.g. a satellite name or a model name.",
+                        "type": "string",
+                        "example": "Sentinel-6, Delft3D-Flow, ..."
+                    },
+                    "description": {
+                        "description": "Additional description of the data source (might contain a URL to a site with information on the model).",
+                        "type": "string"
+                    },
+                    "institution": {
+                        "description": "The institution that produced and/or owns the data",
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "description": "The name of the institution",
+                                "type": "string"
+                            },
+                            "description": {
+                                "description": "Additional description of the institution",
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "name"
+                        ]
                     }
                 }
             }

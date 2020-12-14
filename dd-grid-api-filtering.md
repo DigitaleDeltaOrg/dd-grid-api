@@ -14,9 +14,9 @@ The the query parameter _filter_ can (and often will) be used in combination wit
 This is a mandatory filter, that has to be implemented by every system that offers the DD-GRID-API.
 
 Examples:  
-_/coverages/ijsselmeer-prediction-2020-12-08/data?filter=realization:eq:16_&quantity=waterlevel
-_/coverages/ijsselmeer-prediction-2020-12-08/data?filter=realization:in:1,7,8,9,15_&quantity=tempature
-_/coverages/ijsselmeer-pdf-2020-12-08/data?filter=realization:in:minimum,maximum_&x=6.984&y=53.
+/coverages/ijsselmeer-prediction-2020-12-08/data?___filter=realization:eq:16___&quantity=waterlevel  
+/coverages/ijsselmeer-prediction-2020-12-08/data?___filter=realization:in:[1,7,8,9,15]___&quantity=tempature  
+/coverages/ijsselmeer-pdf-2020-12-08/data?___filter=realization:in:[minimum,maximum]___&x=6.984&y=53.  
 
 If no filtering on ensemble member(s) is requested, the data of all ensemble members will be returned. (The ensemble member identifiers will be an extra dimension in the netcdf file.)
 
@@ -25,4 +25,4 @@ If no filtering on ensemble member(s) is requested, the data of all ensemble mem
 An optional filter that systems might implement is selection on analysis time, i.e. the time stamp on which a computation was performed
 
 Example:  
-_/coverages?filter=analysisstarttime:eq:2020-07-18T00:00:00Z,analysisendtime:eq:2020-07-19T00:00:00Z&quantity=waterlevel_
+/coverages?___filter=analysisstarttime:eq:2020-07-18T00:00:00Z,analysisendtime:eq:2020-07-19T00:00:00Z___&quantity=waterlevel_

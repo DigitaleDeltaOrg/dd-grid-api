@@ -229,7 +229,7 @@
                         "$ref": "#/components/parameters/endTime"
                     },
                     {
-                        "$ref": "#/components/parameters/realization"
+                        "$ref": "#/components/parameters/filter"
                     }
                 ],
                 "responses": {
@@ -307,7 +307,7 @@
                         "$ref": "#/components/parameters/endTime"
                     },
                     {
-                        "$ref": "#/components/parameters/realization"
+                        "$ref": "#/components/parameters/filter"
                     }
                 ],
                 "responses": {
@@ -726,6 +726,20 @@
                 ],
                 "additionalProperties": false
             },
+            "realizationIds": {
+                "description": "List of identifiers that form the entries to the realization dimension",
+                "type": "array",
+                "minItems": 2,
+                "items": {
+                    "type": "string"
+                },
+                "example": [
+                    "minimum",
+                    "average",
+                    "median",
+                    "maximum"
+                ]
+            },
             "timeRange": {
                 "description": "Range and unit of the time axis",
                 "type": "object",
@@ -828,8 +842,15 @@
                     "lat": {
                         "$ref": "#/components/schemas/latLonRange"
                     },
-                    "realization": {
-                        "$ref": "#/components/schemas/realizationRange"
+                    "realization": { 
+                        "oneOf" : [
+                            {
+                                "$ref": "#/components/schemas/realizationRange"
+                            },
+                            {
+                                "$ref": "#/components/schemas/realizationIds"
+                            }
+                        ]
                     },
                     "t": {
                         "$ref": "#/components/schemas/timeRange"
@@ -853,8 +874,15 @@
                     "lat": {
                         "$ref": "#/components/schemas/latLonRangeAndStep"
                     },
-                    "realization": {
-                        "$ref": "#/components/schemas/realizationRange"
+                    "realization": { 
+                        "oneOf" : [
+                            {
+                                "$ref": "#/components/schemas/realizationRange"
+                            },
+                            {
+                                "$ref": "#/components/schemas/realizationIds"
+                            }
+                        ]
                     },
                     "t": {
                         "$ref": "#/components/schemas/timeRangeAndStep"
@@ -872,8 +900,15 @@
                 "description": "The axes (lon/x, lat/y, [realization,] t) in the domainSet",
                 "type": "object",
                 "properties": {
-                    "realization": {
-                        "$ref": "#/components/schemas/realizationRange"
+                    "realization": { 
+                        "oneOf" : [
+                            {
+                                "$ref": "#/components/schemas/realizationRange"
+                            },
+                            {
+                                "$ref": "#/components/schemas/realizationIds"
+                            }
+                        ]
                     },
                     "t": {
                         "$ref": "#/components/schemas/timeRangeAndStep"
@@ -1188,13 +1223,14 @@
                     "pattern": "aaaa[,bbbb[,cccc[,...]]]"
                 }
             },
-            "realization": {
-                "name": "realization",
+            "filter": {
+                "name": "filter",
                 "in": "query",
-                "description": "Select a specific realization (in case of an ensemble run).\n",
+                "description": "Query parameter for a generic filter mechanism. Used for instance for selecting an ensemble member (i.e. \"realization\") from an ensemble run ensemble run. See https://github.com/DigitaleDeltaOrg/dd-grid-api/blob/master/dd-grid-api-filtering.md for details.\n",
                 "required": false,
                 "schema": {
-                    "type": "integer"
+                    "type": "string",
+                    "example": "realization:eq:16 or realization:eq:1,7,8,9,15 or realization:eq:min,max"
                 }
             },
             "projection": {

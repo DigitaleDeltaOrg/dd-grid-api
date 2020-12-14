@@ -36,7 +36,7 @@
                 "tags": [
                     "General info"
                 ],
-                "summary": "Landing page of the system that implements the DD-GRID-API",
+                "summary": "Landing page of a system that implements the DD-GRID-API",
                 "description": "The landing page describes the type of coverages available in the system, and provides links to the DD-GRID-API documentation.",
                 "operationId": "getLandingPage",
                 "parameters": [],
@@ -59,7 +59,7 @@
                 "tags": [
                     "General info"
                 ],
-                "summary": "DD-GRID-API implemention",
+                "summary": "A system's DD-GRID-API implementation",
                 "description": "Get a list of the DD-GRID-API end points implemented by the system.",
                 "operationId": "getApiImplemention",
                 "responses": {
@@ -102,19 +102,60 @@
                         "$ref": "#/components/parameters/page"
                     },
                     {
-                        "$ref": "#/components/parameters/boundingBox"
+                        "name": "boundingbox",
+                        "in": "query",
+                        "description": "Select only the coverages with a geometry that intersects with the _boundingbox_",
+                        "required": false,
+                        "schema": {
+                            "maxItems": 4,
+                            "minItems": 4,
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            }
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/startTime"
+                        "name": "startTime",
+                        "in": "query",
+                        "description": "Select only the coverages of which the time axis include time stamps equal to or later than _startTime_.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "description": "Date-time string that adheres to RFC 3339. Examples \"2018-02-12T23:20:50Z\"",
+                            "format": "date-time"
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/endTime"
+                        "name": "endTime",
+                        "in": "query",
+                        "description": "Select only the coverages of which the time axis include time stamps equal to or before _endTime_.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "description": "Date-time string that adheres to RFC 3339. Examples \"2018-02-12T23:20:50Z\"",
+                            "format": "date-time"
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/quantityId"
+                        "name": "quantityId",
+                        "in": "query",
+                        "description": "Select only the coverages that contain data for the quantity with id _quantityId_.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "temperature"
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/quantityName"
+                        "name": "quantityName",
+                        "in": "query",
+                        "description": "Select only the coverages that contain data for the quantity with name _quantityName_.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "temperature"
+                        }
                     },
                     {
                         "name": "analysisTime",
@@ -211,22 +252,67 @@
                         "$ref": "#/components/parameters/coverageId"
                     },
                     {
-                        "$ref": "#/components/parameters/boundingBox"
+                        "name": "boundingbox",
+                        "in": "query",
+                        "description": "Select only grid values that are within the _boundingbox_. (For 3d coverages, the bounding box may contain a 3d dimension.)",
+                        "required": false,
+                        "schema": {
+                            "maxItems": 6,
+                            "minItems": 4,
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            }
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/quantityId"
+                        "name": "quantityId",
+                        "in": "query",
+                        "description": "Select only the grid values for one or more quantities in the coverage. (Multiple identifiers should be separated by a comma).",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string",
+                            "pattern": "aaaa[,bbbb[,cccc[,...]]]"
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/quantityName"
+                        "name": "quantityName",
+                        "in": "query",
+                        "description": "Select only the grid values for one or more quantities in the coverage. (Multiple names should be separated by a comma).",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string",
+                            "pattern": "aaaa[,bbbb[,cccc[,...]]]"
+                        }
                     },
                     {
                         "$ref": "#/components/parameters/projection"
                     },
                     {
-                        "$ref": "#/components/parameters/startTime"
+                        "name": "startTime",
+                        "in": "query",
+                        "description": "Return only the grid values that have a time stamp equal to or later than _startTime_.",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Date-time string that adheres to RFC 3339. Examples \"2018-02-12T23:20:50Z\"",
+                            "format": "date-time"
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/endTime"
+                        "name": "endTime",
+                        "in": "query",
+                        "description": "Return only the grid values that have a time stamp equal to or before _endTime_.",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Date-time string that adheres to RFC 3339. Examples \"2018-02-12T23:20:50Z\"",
+                            "format": "date-time"
+                        }
                     },
                     {
                         "$ref": "#/components/parameters/filter"
@@ -298,16 +384,50 @@
                         "$ref": "#/components/parameters/coverageId"
                     },
                     {
-                        "$ref": "#/components/parameters/quantityId"
+                        "name": "quantityId",
+                        "in": "query",
+                        "description": "Select only time series for one or more quantities in the coverage. (Multiple identifiers should be separated by a comma).",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string",
+                            "pattern": "aaaa[,bbbb[,cccc[,...]]]"
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/quantityName"
+                        "name": "quantityName",
+                        "in": "query",
+                        "description": "Select only time series for one or more quantities in the coverage. (Multiple names should be separated by a comma).",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string",
+                            "pattern": "aaaa[,bbbb[,cccc[,...]]]"
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/startTime"
+                        "name": "startTime",
+                        "in": "query",
+                        "description": "Return only the events that have a time stamp equal to or later than _startTime_.",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Date-time string that adheres to RFC 3339. Examples \"2018-02-12T23:20:50Z\"",
+                            "format": "date-time"
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/endTime"
+                        "name": "endTime",
+                        "in": "query",
+                        "description": "Return only the events that have a time stamp equal to or before _endTime_.",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Date-time string that adheres to RFC 3339. Examples \"2018-02-12T23:20:50Z\"",
+                            "format": "date-time"
+                        }
                     },
                     {
                         "$ref": "#/components/parameters/filter"
@@ -443,13 +563,40 @@
                         "$ref": "#/components/parameters/page"
                     },
                     {
-                        "$ref": "#/components/parameters/boundingBox"
+                        "name": "boundingbox",
+                        "in": "query",
+                        "description": "Select only the quantities that are present on coverages with a geometry that intersects with the _boundingbox_.",
+                        "required": false,
+                        "schema": {
+                            "maxItems": 4,
+                            "minItems": 4,
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            }
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/startTime"
+                        "name": "startTime",
+                        "in": "query",
+                        "description": "Select only the quantities that are present on coverages of which the time axis include time stamps equal to or later than _startTime_.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "description": "Date-time string that adheres to RFC 3339. Examples \"2018-02-12T23:20:50Z\"",
+                            "format": "date-time"
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/endTime"
+                        "name": "endTime",
+                        "in": "query",
+                        "description": "Select only the quantities that are present on coverages of which the time axis include time stamps equal to or before _endTime_.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "description": "Date-time string that adheres to RFC 3339. Examples \"2018-02-12T23:20:50Z\"",
+                            "format": "date-time"
+                        }
                     }
                 ],
                 "responses": {
@@ -1219,72 +1366,10 @@
                     "type": "string"
                 }
             },
-            "boundingBox": {
-                "name": "boundingBox",
-                "in": "query",
-                "description": "Only select coverages that have a geometry that intersects the bounding box.",
-                "required": false,
-                "style": "form",
-                "explode": false,
-                "schema": {
-                    "maxItems": 6,
-                    "minItems": 4,
-                    "type": "array",
-                    "items": {
-                        "type": "number"
-                    }
-                }
-            },
-            "startTime": {
-                "name": "startTime",
-                "in": "query",
-                "description": "Select only the coverages of which the time axis include time stamps equal to or later than _startTime_.",
-                "required": false,
-                "schema": {
-                    "type": "string",
-                    "description": "Date-time string that adheres to RFC 3339. Examples \"2018-02-12T23:20:50Z\"",
-                    "format": "date-time"
-                }
-            },
-            "endTime": {
-                "name": "endTime",
-                "in": "query",
-                "description": "Select only the coverages of which the time axis include time stamps equal to or before _startTime_.",
-                "required": false,
-                "schema": {
-                    "type": "string",
-                    "description": "Date-time string that adheres to RFC 3339. Examples \"2018-02-12T23:20:50Z\"",
-                    "format": "date-time"
-                }
-            },
-            "quantityId": {
-                "name": "quantityId",
-                "in": "query",
-                "description": "Get a subset of the quantities in the coverage (quantity identifiers separated by ';')",
-                "required": false,
-                "style": "form",
-                "explode": true,
-                "schema": {
-                    "type": "string",
-                    "pattern": "aaaa[,bbbb[,cccc[,...]]]"
-                }
-            },
-            "quantityName": {
-                "name": "quantityName",
-                "in": "query",
-                "description": "Get a subset of the quantities in the coverage (quantity names separated by ';')",
-                "required": false,
-                "style": "form",
-                "explode": true,
-                "schema": {
-                    "type": "string",
-                    "pattern": "aaaa[,bbbb[,cccc[,...]]]"
-                }
-            },
             "filter": {
                 "name": "filter",
                 "in": "query",
-                "description": "Query parameter for a generic filter mechanism. Used for instance for selecting an ensemble member (i.e. \"realization\") from an ensemble run ensemble run. See https://github.com/DigitaleDeltaOrg/dd-grid-api/blob/master/dd-grid-api-filtering.md for details.\n",
+                "description": "Optional query parameter that offers additional filtering by means of a generic filter mechanism. Used for instance for selecting an ensemble member (i.e. _realization_) from an ensemble run ensemble run. See https://github.com/DigitaleDeltaOrg/dd-grid-api/blob/master/dd-grid-api-filtering.md for details.\n",
                 "required": false,
                 "schema": {
                     "type": "string",

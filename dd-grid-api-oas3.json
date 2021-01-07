@@ -1236,7 +1236,7 @@
                     }
                 },
                 "additionalProperties": false,
-                "description": "List of quantities that meet the query (i.e. the set of filter parameters)."
+                "description": "List of quantities that meet the query."
             },
             "quantity": {
                 "title": "quantity",
@@ -1362,7 +1362,7 @@
             "filter": {
                 "name": "filter",
                 "in": "query",
-                "description": "Optional query parameter that offers additional filtering by means of a generic filter mechanism. Used for instance for selecting coverages with a certain analysis time and for selecting data for an ensemble member (i.e. _realization_) from an ensemble run. See https://github.com/DigitaleDeltaOrg/dd-grid-api/blob/master/dd-grid-api-filtering.md for details.\n",
+                "description": "Query parameter that offers additional filtering by means of a generic filter mechanism. Used for instance for selecting coverages with a certain analysis time and for selecting data for an ensemble member (i.e. _realization_) from an ensemble run. See https://github.com/DigitaleDeltaOrg/dd-grid-api/blob/master/dd-grid-api-filtering.md for details. Implementation of this quety parameter is optional. Systems may choose to not implement it and return a HTTP 400 status code (bad request).\n",
                 "required": false,
                 "schema": {
                     "type": "string",

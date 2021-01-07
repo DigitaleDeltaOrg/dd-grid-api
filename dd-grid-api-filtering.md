@@ -1,7 +1,7 @@
 # DD-GRID-API Generic Filtering Mechanism
 
-Some end points of the DD-GRID-API provide the query parameter "filter". This parameter is meant to offer a generic filtering mechanism.  
-Currently, only selecting one or more realizations from an ensemble run is formalized. However, systems may offer additional filter options.
+Some end points of the DD-GRID-API specify the query parameter "filter". This parameter is meant to offer a generic filtering mechanism. An example of such a filter is: only select one or more realizations from an ensemble run. In addition systems may offer more filter options.  
+However, implementing this filter parameter is optional. Systems may decide to not implement it.
 
 The generic syntax for the query parameter _filter_ is:  
 _../some-end-point?filter=attribute:comparer:value_  

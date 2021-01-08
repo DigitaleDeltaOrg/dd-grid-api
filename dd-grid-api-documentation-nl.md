@@ -1,8 +1,8 @@
-# Beschrijving DD-GRID-API versie 0.95
+# Beschrijving DD-GRID-API versie 1.0
 
 ## Inleiding
 
-Deze pagina bevat de beschrijving versie 0.95 (binnenkort om te zetten in versie 1.0) van de Digitale Delta API voor roosterdata (grid data).  
+Deze pagina bevat de beschrijving van versie 1.0 van de Digitale Delta API voor roosterdata (grid data).  
 Deze DD-GRID-API is afgeleid van de [OGC API Coverages](https://github.com/opengeospatial/ogc_api_coverages).
 De specificatie van de DD-GRID-API is opgesteld in OAS3 (OpenAPI Specification 3), en staat in ([dd-grid-api-oas3.json](./dd-grid-api-oas3.json)). De DD-GRID-API specificatie valideert dus tegen het [OAS3-schema](https://github.com/OAI/OpenAPI-Specification/blob/master/schemas/v3.0/schema.json).
 
@@ -10,7 +10,7 @@ De specificatie van de DD-GRID-API is opgesteld in OAS3 (OpenAPI Specification 3
 ## Uitgangspunten
 
 ### OGC API Coverages
-Bij het opstellen van de DD-GRID-API is zoals gezet uitgegaan van de _OGC API Coverages_. Daarbij is de volgende documentatie gebruikt:
+Bij het opstellen van de DD-GRID-API is zoals gezegd uitgegaan van de _OGC API Coverages_. Daarbij is de volgende documentatie gebruikt:
 * _OGC API Coverage_ specifatie voor de resource objects: https://github.com/opengeospatial/ogc_api_coverages/blob/master/standard/openapi/coverage-schema.json
 * _OGC API Coverage_ specifatie voor de urls van de end points: https://github.com/opengeospatial/ogc_api_coverages/blob/master/standard/openapi/openapi.json
 

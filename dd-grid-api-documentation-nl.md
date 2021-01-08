@@ -67,22 +67,23 @@ Daarnaast bevat de  volgende paragraaf een tabel mete een compacte beschrijving 
 | | _startTime_ | Lever alleen de data vanaf het opgegeven start-tijdstip. |
 | | _endTime_ | Lever alleen de data tot en met het opgegeven eind-tijdstip. |
 | | _format_ | Geeft aan in welk data format de data moet worden geleverd (netcdf-cf, geotiff, ...). |
-| | _filter_ | Filter op een of meer attributen van de coverage (zie 'Generiek filtering mechanisme' in de volgende paragraaf). Het filter is generiek wordt momenteel gebruikt voor het selecteren van ensemble members als de coverage het resultaat is van een ensemble run. |
+| | _filter_ | Filter op een of meer attributen van de coverage (zie 'Generiek filtering mechanisme' in de volgende paragraaf). Het filter is generiek en kan b.v. worden gebruikt voor het selecteren van ensemble members als de coverage het resultaat is van een ensemble run. Implementatie van deze _filter_ query parameter is optioneel. |
 **/coverages/{coverageId}/point-data** | | Vraag tijdseries op van een of meer grootheden op een of meer punten in de coverage met id _coverageId_.<br>Response: een json string met een lijst van tijdseries, conform de response van het _/timeseries_ end point van de [DD-API](https://digitaledeltaorg.github.io/dd.v201.html). De lijst is &#233;&#233;n lang als er om &#233;&#233;n punt is gevraagd. |
 | | _x[]_ en _y_[] | Lever tijdseries op een of meer X,Y-punt(en) in het grid. (Meerdere punten worden opgegeven door in zowel de _x_ als de _y_ parameter meerdere waarden op te geven, gescheiden door een komma.) |
 | | _quantityId[]_ | Lever alleen data voor een of meer quantities, gespecificeerd door _quantityId[]_. Meerdere quantities worden opgegeven door een komma-gescheiden string. Bij weglating van deze parameter worden alle quantities in de coverage geleverd. |
 | | _quantityName[]_ | Lever alleen data voor een of meer quantities, gespecificeerd door _quantityName[]_. Meerdere quantities worden opgegeven door een komma-gescheiden string. Bij weglating van deze parameter worden alle quantities in de coverage geleverd. |
 | | _startTime_ | Lever alleen de data vanaf het opgegeven start-tijdstip. |
 | | _endTime_ | Lever alleen de data tot en met het opgegeven eind-tijdstip. |
-| | _filter_ | Filter op een of meer attributen van de coverage (zie 'Generiek filtering mechanisme' in de volgende paragraaf). Het filter is generiek wordt momenteel gebruikt voor het selecteren van ensemble members als de coverage het resultaat is van een ensemble run. |
+| | _filter_ | Filter op een of meer attributen van de coverage (zie 'Generiek filtering mechanisme' in de volgende paragraaf). Het filter is generiek en kan b.v. worden gebruikt voor het selecteren van ensemble members als de coverage het resultaat is van een ensemble run. Implementatie van deze _filter_ query parameter is optioneel. |
 
 ## Generiek filter mechanisme
 
-Een aantal end points bieden een [generieke filter optie](./dd-grid-api-filtering.md). In eerste instantie wordt deze door alle implementerende systemen alleen gebruikt om te filteren op ensemble member(s) in een ensemble run (i.e. een som die meerdere malen is uitgevoerd, met b.v. telkens wijzigende randvoorwaarden). Het filter mechanisme kan in de toekomst ook gebruikt worden voor het filteren op andere attributen.  
+Een aantal end points kunnen een [generieke filter optie](./dd-grid-api-filtering.md) bieden. Implementatie van deze _filter_ query parameter is optioneel.
+In eerste instantie zullen de  implementerende systemen dit waarschijnlijk alleen gebruiken om te filteren op ensemble member(s) in een ensemble run (i.e. een som die meerdere malen is uitgevoerd, met b.v. telkens wijzigende randvoorwaarden). Het filter mechanisme kan in de toekomst ook gebruikt worden voor het filteren op andere attributen.  
 
 Om te filteren wordt een parameter filter=_expressie_ meegegeven, waarin expressie de volgende syntax heeft:
 _attribute:operator:value_. Voorbeeld:<br>
-_/coverages/ijsselmeer-prediction-2020-12-08/data?filter=realization:eq:1,7,8,9,15_
+_/coverages/ijsselmeer-prediction-2020-12-08/data?filter=realization:in:[1,7,8,9,15]_
 Hiermee worden uit de ensemble run de waarden op het grid opgevraagd voor de genoemde ensemble members.
 
 ## Voorbeelden van de response
